@@ -2,6 +2,7 @@ import React from "react";
 
 import { workExperience } from "@/data";
 import { Button } from "./ui/MovingBorders";
+import {cn} from "@/lib/utils";
 
 const Experience = () => {
     return (
@@ -29,7 +30,10 @@ const Experience = () => {
                             <img
                                 src={card.thumbnail}
                                 alt={card.thumbnail}
-                                className="lg:w-32 md:w-20 w-16"
+                                className={cn(
+                                    "lg:w-32 md:w-20 w-16 bg-white rounded-2xl",
+                                    card.id === 1 || card.id === 4 ? "px-2" : "p-2"
+                                )}
                             />
                             <div className="lg:ms-5">
                                 <h1 className="text-start text-xl md:text-2xl font-bold">

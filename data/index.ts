@@ -7,17 +7,17 @@ export const navItems = [
   export const gridItems = [
     {
       id: 1,
-      title: "I prioritize client collaboration, fostering open communication ",
+      title: "I prioritize collaboration with the team and encourage open communication",
       description: "",
       className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
       imgClassName: "w-full h-full",
       titleClassName: "justify-end",
-      img: "/b1.svg",
+      img: "/inporto.png",
       spareImg: "",
     },
     {
       id: 2,
-      title: "I'm very flexible with time zone communications",
+      title: "I live in a land of natural wonders, Indonesia 🇮🇩",
       description: "",
       className: "lg:col-span-2 md:col-span-3 md:row-span-2",
       imgClassName: "",
@@ -37,7 +37,7 @@ export const navItems = [
     },
     {
       id: 4,
-      title: "Tech enthusiast with a passion for development.",
+      title: "Tech enthusiast with a passion for development",
       description: "",
       className: "lg:col-span-2 md:col-span-3 md:row-span-1",
       imgClassName: "",
@@ -48,8 +48,8 @@ export const navItems = [
   
     {
       id: 5,
-      title: "Currently building a JS Animation library",
-      description: "The Inside Scoop",
+      title: "Some technologies that I can use",
+      description: "",
       className: "md:col-span-3 md:row-span-2",
       imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
       titleClassName: "justify-center md:justify-start lg:justify-center",
@@ -71,68 +71,35 @@ export const navItems = [
   export const projects = [
     {
       id: 1,
-      title: "3D Solar System Planets to Explore",
-      des: "Explore the wonders of our solar system with this captivating 3D simulation of the planets using Three.js.",
-      img: "/p1.svg",
-      iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/fm.svg"],
-      link: "https://github.com/adrianhajdin?tab=repositories",
+      title: "Rotation Matrices vs Quaternions for 3D Object Rotation in Three.js",
+      des: "",
+      img: "/algebra.png",
+      iconLists: ["/html.svg", "/css.svg", "/javascript.svg", "/three.svg"],
+      link: "https://github.com/Leonfarhan/algebra",
     },
     {
       id: 2,
-      title: "Yoom - Video Conferencing App",
-      des: "Simplify your video conferencing experience with Yoom. Seamlessly connect with colleagues and friends.",
-      img: "/p2.svg",
-      iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/stream.svg", "/c.svg"],
-      link: "https://github.com/adrianhajdin/zoom-clone",
+      title: "Development of Student Graduation Prediction Web Application using SDLC Waterfall Method",
+      des: "",
+      img: "/appthesis.png",
+      iconLists: ["/re.svg", "/tail.svg", "/javascript.svg", "/python.svg", "/fastapi.svg",  "/scikit.svg"],
+      link: "This repository is private 😔",
     },
     {
       id: 3,
-      title: "AI Image SaaS - Canva Application",
-      des: "A REAL Software-as-a-Service app with AI features and a payments and credits system using the latest tech stack.",
-      img: "/p3.svg",
-      iconLists: ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/c.svg"],
-      link: "https://github.com/adrianhajdin/ai_saas_app",
+      title: "BookFlow - Web based Book Lending Platform",
+      des: "",
+      img: "/borrowbook.png",
+      iconLists: ["/re.svg", "/ts.svg", "/tail.svg","/mariadb.svg", "/java.svg", "/spring.svg"],
+      link: "https://github.com/Leonfarhan/React_ts_frontend",
     },
     {
       id: 4,
-      title: "Animated Apple Iphone 3D Website",
-      des: "Recreated the Apple iPhone 15 Pro website, combining GSAP animations and Three.js 3D effects..",
-      img: "/p4.svg",
-      iconLists: ["/next.svg", "/tail.svg", "/ts.svg", "/three.svg", "/gsap.svg"],
-      link: "https://github.com/adrianhajdin/iphone",
-    },
-  ];
-  
-  export const companies = [
-    {
-      id: 1,
-      name: "cloudinary",
-      img: "/cloud.svg",
-      nameImg: "/cloudName.svg",
-    },
-    {
-      id: 2,
-      name: "appwrite",
-      img: "/app.svg",
-      nameImg: "/appName.svg",
-    },
-    {
-      id: 3,
-      name: "HOSTINGER",
-      img: "/host.svg",
-      nameImg: "/hostName.svg",
-    },
-    {
-      id: 4,
-      name: "stream",
-      img: "/s.svg",
-      nameImg: "/streamName.svg",
-    },
-    {
-      id: 5,
-      name: "docker.",
-      img: "/dock.svg",
-      nameImg: "/dockerName.svg",
+      title: "Learning Skill - Interactive Online Skills Learning Platform”",
+      des: "",
+      img: "/learningskill.png",
+      iconLists: ["/re.svg", "/tail.svg", "/javascript.svg", "/mysql.svg","/php.svg", "/laravel.svg"],
+      link: "https://github.com/Leonfarhan/learning-skill/tree/development",
     },
   ];
 
@@ -142,28 +109,28 @@ export const workExperience = [
     title: "Assistant Practicum of Web Programming",
     desc: "Guided students in web development fundamentals using HTML, CSS, JavaScript, PHP, and Laravel. Conducted demos and Q&A sessions.",
     className: "md:col-span-2",
-    thumbnail: "/exp1.svg", // Replace with relevant image
+    thumbnail: "/uper.svg",
   },
   {
     id: 2,
     title: "Head of Project Management - Computer Science Student Association",
     desc: "Developed a dynamic website using Next.js, Tailwind CSS, and API integration. Created a user-friendly interface and integrated real-time updates.",
     className: "md:col-span-2",
-    thumbnail: "/exp2.svg", // Replace with relevant image
+    thumbnail: "/hmik.jpeg",
   },
   {
     id: 3,
-    title: "Full Stack Engineer Intern - PT Pupuk Indonesia (Persero)",
+    title: "Full Stack Engineer - PT Pupuk Indonesia (Persero)",
     desc: "Applied critical thinking and problem-solving skills in full-stack development using FastAPI, MongoDB, and React.js.  Experienced with Nginx and Linux server management.",
     className: "md:col-span-2",
-    thumbnail: "/exp3.svg", // Replace with relevant image
+    thumbnail: "/pupuk.png",
   },
   {
     id: 4,
     title: "Assistant Lecturer of Mobile Programming",
     desc: "Taught Kotlin-based mobile app development, engaging students through interactive discussions and hands-on projects. Contributed to curriculum development.",
     className: "md:col-span-2",
-    thumbnail: "/exp4.svg", // Replace with relevant image
+    thumbnail: "/uper.svg",
   },
 ];
   
@@ -179,3 +146,21 @@ export const workExperience = [
       link: "https://www.linkedin.com/in/farhan-alwahid/"
     },
   ];
+
+export const techIcons = [
+  "/next.svg",
+  "/re.svg",
+  "/tail.svg",
+  "/javascript.svg",
+  "/ts.svg",
+  "/mongodb.svg",
+  "/mysql.svg",
+  "/mariadb.svg",
+  "/fastapi.svg",
+  "/dbeaver.svg",
+  "/spring.svg",
+  "/github.svg",
+  "/jira.svg",
+  "/vite.svg",
+  "/digitalocean.svg",
+];

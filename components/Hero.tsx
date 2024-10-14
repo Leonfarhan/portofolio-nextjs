@@ -23,32 +23,18 @@ const Hero = () => {
 
       <div className="flex justify-center relative my-20 z-10">
         <div className="max-w-[89vw] md:max-2-2xl lg:max-w-[60vw] flex flex-col items-center justify-center">
-          {/*<h2 className="uppercase tracking-widest text-xs text-center max-w-80 text-blue-100">*/}
-          {/*  A modern website use nextjs, tailwindcss, and typescript*/}
-          {/*</h2>*/}
-
             <TextGenerateEffect
                 className="text-center text-[40px] md:text-5xl lg:text-6xl"
-                words="Welcome visitors"
+                words="Hi, I'm Farhan Alwahid"
             />
 
           <p className="text-center">
-            Hi, I&apos;m <span className="text-purple"> Farhan Alwahid </span>, a Computer Science graduate from Pertamina University seeking <span className="text-purple"> Software Engineer </span> roles,
+            A Computer Science graduate from Pertamina University seeking <span className="text-purple"> Software Engineer </span> roles,
               particularly in Front-End development. I&apos;m passionate about building user-friendly applications using React,
               Next.js, and Tailwind CSS.  My experience includes full-stack development with technologies like FastAPI, MongoDB, and Python,
               including integrating machine learning.  I honed my skills at PT Pupuk Indonesia, tackling complex software challenges.
               Explore my portfolio to see how I can contribute to your team.
-
           </p>
-
-          {/*<a href="#about">*/}
-          {/*  <BorderMagicButton*/}
-          {/*    title="Show my work"*/}
-          {/*    icon={<FaLocationArrow />}*/}
-          {/*    position="right"*/}
-          {/*  />*/}
-          {/*</a>*/}
-
         </div>
       </div>
     </div>
