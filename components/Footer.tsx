@@ -18,9 +18,7 @@
                     <h1 className="heading lg:max-w-[45vw]">
                         Interested in working <span className="text-purple"> together? </span> Contact me
                     </h1>
-                    {/*<p className="text-white-200 md:mt-10 my-5 text-center">*/}
-                    {/*    Let's elevate your digital presence. Contact me today!*/}
-                    {/*</p>*/}
+
                     <a href="mailto:farhanalwahid10@gmail.com">
                         <BorderMagicButton
                             title= "Email me"
@@ -36,7 +34,7 @@
 
                     <div className="flex items-center md:gap-3 gap-6">
                         {socialMedia.map((info) => (
-                            <a href={info.link}>
+                            <a href={info.link} key={info.id}>
                                 <div
                                     key={info.id}
                                     className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-full border border-black-300"
