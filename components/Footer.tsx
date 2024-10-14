@@ -25,7 +25,8 @@
                         <BorderMagicButton
                             title= "Email me"
                             icon={<FaLocationArrow />}
-                            position="right"/>
+                            position="right"
+                        />
                     </a>
                 </div>
                 <div className="flex mt-16 md:flex-row flex-col justify-between items-center">
