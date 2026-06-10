@@ -3,11 +3,12 @@
 import { cn } from "@/lib/utils";
 import { BackgroundGradientAnimation } from "./BackgroundGradientAnimation";
 import { GlobeDemo } from "./GridGlobe";
-import Lottie  from "react-lottie";
+import dynamic from "next/dynamic";
+const Lottie = dynamic(() => import("./LottieSafe"), { ssr: false });
 import animationData from "@/data/confetti.json"
 import BorderMagicButton from "./BorderMagicButton";
 import { IoCopyOutline } from "react-icons/io5";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {techIcons} from "@/data";
 
 export const BentoGrid = ({
@@ -48,8 +49,12 @@ export const BentoGridItem = ({
     titleClassName?: string;
     spareImg?: string;
 }) => {
-    const leftLists = ["ReactJS", "NextJS", "Typescript"];
-    const rightLists = ["Spring Boot", "Tailwind CSS", ""];
+    const leftLists = ["Golang (Fiber)", "NestJS", "React.js"];
+    const rightLists = ["Next.js", "PostgreSQL", "Docker"];
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const [copied, setCopied] = useState(false);
 
@@ -180,7 +185,7 @@ export const BentoGridItem = ({
                                 className={`absolute -bottom-5 right-0 ${copied ? "block" : "block"
                                 }`}
                             >
-                                <Lottie options={defaultOptions} height={200} width={400}/>
+                                {mounted && <Lottie options={defaultOptions} height={200} width={400}/>}
                             </div>
 
                             <BorderMagicButton

@@ -3,7 +3,6 @@ import { navItems } from "@/data";
 import Grid from '@/components/Grid'
 import Hero from '@/components/Hero'
 import Projects from '@/components/Projects'
-import Experience from "@/components/Experience";
 import Sdlc from "@/components/Sdlc";
 import Footer from "@/components/Footer";
 
@@ -15,7 +14,6 @@ export default function Home() {
         <Hero />
         <Grid />
         <Projects />
-          <Experience/>
           <Sdlc/>
         <Footer/>
       </div>

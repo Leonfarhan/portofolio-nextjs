@@ -1,0 +1,62 @@
+<svg width="800" height="450" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080710" />
+      <stop offset="100%" stop-color="#020204" />
+    </linearGradient>
+    <linearGradient id="purple-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#EC4899" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="node-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F43F5E"/>
+      <stop offset="100%" stop-color="#A855F7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="24" fill="url(#bg-grad)" />
+  <rect x="1" y="1" width="798" height="448" rx="23" stroke="#1E1B4B" stroke-width="2" stroke-opacity="0.5"/>
+
+  <!-- Glow effects -->
+  <circle cx="280" cy="200" r="200" fill="url(#purple-glow)" filter="blur(65px)"/>
+  <circle cx="580" cy="250" r="160" fill="url(#purple-glow)" filter="blur(50px)"/>
+
+  <!-- Grid of floating UI layout wireframes -->
+  <g opacity="0.2" stroke="#A855F7" stroke-width="1.5">
+    <!-- Mini layout box -->
+    <rect x="420" y="80" width="220" height="130" rx="8" fill="none" />
+    <line x1="420" y1="110" x2="640" y2="110" />
+    <circle cx="440" cy="95" r="5" />
+    <circle cx="455" cy="95" r="5" />
+    <rect x="440" y="125" width="50" height="70" rx="4" />
+    <rect x="500" y="125" width="120" height="20" rx="4" />
+    <rect x="500" y="155" width="120" height="40" rx="4" />
+  </g>
+
+  <!-- AI Spark & Nodes visualization -->
+  <g transform="translate(180, 100)">
+    <!-- Central AI Brain Node -->
+    <circle cx="100" cy="120" r="60" fill="#1E1B3A" stroke="url(#node-glow)" stroke-width="4"/>
+    <text x="100" y="132" font-family="system-ui, sans-serif" font-size="36" font-weight="bold" fill="white" text-anchor="middle">AI</text>
+
+    <!-- Branching nodes -->
+    <line x1="160" y1="120" x2="230" y2="70" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4 4"/>
+    <line x1="160" y1="120" x2="230" y2="170" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4 4"/>
+    <line x1="40" y1="120" x2="-20" y2="120" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4 4"/>
+
+    <circle cx="230" cy="70" r="20" fill="#2E185B" stroke="#A855F7" stroke-width="2"/>
+    <text x="230" y="74" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">UI</text>
+
+    <circle cx="230" cy="170" r="20" fill="#2E185B" stroke="#EC4899" stroke-width="2"/>
+    <text x="230" y="174" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">Code</text>
+
+    <circle cx="-20" cy="120" r="20" fill="#2E185B" stroke="#06B6D4" stroke-width="2"/>
+    <text x="-20" y="124" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">LLM</text>
+  </g>
+
+  <!-- Tag badge -->
+  <g transform="translate(620, 50)">
+    <rect width="130" height="40" rx="20" fill="#A855F7" />
+    <text x="65" y="26" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">NEXT.JS</text>
+  </g>
+</svg>

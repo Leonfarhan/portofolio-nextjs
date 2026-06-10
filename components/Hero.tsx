@@ -28,12 +28,8 @@ const Hero = () => {
                 words="Hi, I'm Farhan Alwahid"
             />
 
-          <p className="text-center">
-            A Computer Science graduate from Pertamina University seeking <span className="text-purple"> Software Engineer </span> roles,
-              particularly in Front-End development. I&apos;m passionate about building user-friendly applications using React,
-              Next.js, and Tailwind CSS.  My experience includes full-stack development with technologies like FastAPI, MongoDB, and Python,
-              including integrating machine learning.  I honed my skills at PT Pupuk Indonesia, tackling complex software challenges.
-              Explore my portfolio to see how I can contribute to your team.
+          <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
+            I am a <span className="text-purple">Full Stack & Backend Developer</span> specializing in high-performance applications using Golang (Fiber/Chi) and React TypeScript. With expertise in modernizing production-scale systems—such as migrating an E-Learning CBT platform and integrating Groq API for fast AI analysis—I design robust REST APIs and manage scalable cloud architectures across AWS and DigitalOcean.
           </p>
         </div>
       </div>

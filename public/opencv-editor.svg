@@ -1,0 +1,69 @@
+<svg width="800" height="450" viewBox="0 0 800 450" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#040F1A" />
+      <stop offset="100%" stop-color="#02070D" />
+    </linearGradient>
+    <linearGradient id="cyan-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0.1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="450" rx="24" fill="url(#bg-grad)" />
+  <rect x="1" y="1" width="798" height="448" rx="23" stroke="#083344" stroke-width="2" stroke-opacity="0.5"/>
+
+  <!-- Glow effect -->
+  <circle cx="350" cy="225" r="180" fill="url(#cyan-glow)" filter="blur(60px)"/>
+
+  <!-- Aperture layout -->
+  <g transform="translate(250, 225)">
+    <!-- Lens outer ring -->
+    <circle cx="0" cy="0" r="110" stroke="#083344" stroke-width="6" fill="#03101E" fill-opacity="0.8"/>
+    <circle cx="0" cy="0" r="90" stroke="#06B6D4" stroke-width="2"/>
+    <circle cx="0" cy="0" r="45" fill="#10B981" fill-opacity="0.7"/>
+
+    <!-- Lens glass highlights -->
+    <path d="M -60 -60 Q -10 -80 40 -60" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+    <path d="M -40 -40 Q -5 -55 30 -40" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+
+    <!-- Camera shutter blades -->
+    <path d="M 0 -90 L 30 -45 L 90 -45" stroke="#06B6D4" stroke-width="1.5" opacity="0.5"/>
+    <path d="M 90 0 L 45 30 L 45 90" stroke="#06B6D4" stroke-width="1.5" opacity="0.5"/>
+    <path d="M 0 90 L -30 45 L -90 45" stroke="#06B6D4" stroke-width="1.5" opacity="0.5"/>
+    <path d="M -90 0 L -45 -30 L -45 -90" stroke="#06B6D4" stroke-width="1.5" opacity="0.5"/>
+  </g>
+
+  <!-- Photo adjustments panel illustration -->
+  <g transform="translate(480, 100)" stroke="#10B981" stroke-width="2" fill="none">
+    <rect x="0" y="0" width="220" height="250" rx="12" fill="#051624" stroke="#083344" stroke-width="2"/>
+    
+    <!-- Title -->
+    <text x="20" y="35" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="white" stroke="none">Image Filters</text>
+
+    <!-- Adjustment Sliders -->
+    <!-- Slider 1 -->
+    <text x="20" y="75" font-family="system-ui, sans-serif" font-size="11" font-weight="medium" fill="#9CA3AF" stroke="none">Contrast</text>
+    <line x1="20" y1="90" x2="200" y2="90" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+    <line x1="20" y1="90" x2="140" y2="90" stroke="#06B6D4" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="140" cy="90" r="8" fill="white" stroke="#06B6D4" stroke-width="2"/>
+
+    <!-- Slider 2 -->
+    <text x="20" y="135" font-family="system-ui, sans-serif" font-size="11" font-weight="medium" fill="#9CA3AF" stroke="none">Brightness</text>
+    <line x1="20" y1="150" x2="200" y2="150" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+    <line x1="20" y1="150" x2="110" y2="150" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="110" cy="150" r="8" fill="white" stroke="#10B981" stroke-width="2"/>
+
+    <!-- Slider 3 -->
+    <text x="20" y="195" font-family="system-ui, sans-serif" font-size="11" font-weight="medium" fill="#9CA3AF" stroke="none">Gaussian Blur</text>
+    <line x1="20" y1="210" x2="200" y2="210" stroke="#1E293B" stroke-width="6" stroke-linecap="round"/>
+    <line x1="20" y1="210" x2="70" y2="210" stroke="#F59E0B" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="70" cy="210" r="8" fill="white" stroke="#F59E0B" stroke-width="2"/>
+  </g>
+
+  <!-- Tag badge -->
+  <g transform="translate(620, 40)">
+    <rect width="130" height="40" rx="20" fill="#10B981" />
+    <text x="65" y="26" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">OPENCV.JS</text>
+  </g>
+</svg>

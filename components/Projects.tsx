@@ -30,7 +30,7 @@ const Projects = () => {
                                 <img
                                     src={item.img}
                                     alt="cover"
-                                    className="z-10 bottom-0 object-cover rounded-md"
+                                    className="z-10 absolute bottom-0 w-full h-full object-cover rounded-md"
                                 />
                             </div>
 
@@ -63,11 +63,11 @@ const Projects = () => {
                                     ))}
                                 </div>
 
-                                <div className="flex justify-center items-center">
-                                    <p className="flex lg:text-base md:text-xs text-sm text-purple">
+                                <div className="flex justify-center items-center gap-2 px-3 py-1.5 rounded-lg border border-white/[0.1] bg-[#161a31] hover:bg-[#202542] hover:border-purple/50 transition-all duration-300 cursor-pointer">
+                                    <span className="flex lg:text-base md:text-xs text-sm text-purple font-medium">
                                         Check on my Github
-                                    </p>
-                                    <img src="/git.svg" className="pl-2"/>
+                                    </span>
+                                    <img src="/git.svg" className="w-5 h-5"/>
                                 </div>
                             </div>
                         </PinContainer>
