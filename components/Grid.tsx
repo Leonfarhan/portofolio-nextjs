@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 import { gridItems, techIcons } from "@/data";
 import { BentoGridHeader } from "./ui/BentoGridHeader";
@@ -68,11 +68,14 @@ const Grid = () => {
             } else if (id === 5) {
               children = (
                 <div className="flex flex-wrap justify-center mt-4">
-                  {techIcons.map((iconPath, index) => (
-                    <img
-                      key={index}
+                  {techIcons.map((iconPath) => (
+                    <Image
+                      key={iconPath}
                       src={iconPath}
-                      alt={`Tech Icon ${index}`}
+                      alt=""
+                      aria-hidden="true"
+                      width={80}
+                      height={80}
                       className="w-12 md:w-16 lg:w-20 h-auto p-2 rounded-full mx-1 my-1 bg-white"
                     />
                   ))}

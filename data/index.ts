@@ -1,5 +1,5 @@
 export const navItems = [
-    { name: "About", link: "#about" },
+    { name: "Home", link: "#home" },
     { name: "Projects", link: "#projects" },
     { name: "Contact", link: "#contact" },
   ];
@@ -68,6 +68,8 @@ export const navItems = [
     },
   ];
   
+const nextTypescriptStack = ["/next.svg", "/ts.svg", "/tail.svg", "/github.svg"];
+
   export const projects = [
     {
       id: 1,
@@ -90,7 +92,7 @@ export const navItems = [
       title: "AI Website Builder",
       des: "Interactive AI-powered website builder using TypeScript, Next.js, Tailwind CSS, and AI model APIs to generate custom web interfaces.",
       img: "/ai-builder.png",
-      iconLists: ["/next.svg", "/ts.svg", "/tail.svg", "/github.svg"],
+      iconLists: nextTypescriptStack,
       link: "https://github.com/Leonfarhan/ai-website-builder",
     },
     {
@@ -98,7 +100,7 @@ export const navItems = [
       title: "Next.js OpenCV Image Editor",
       des: "Web-based image editing application built with Next.js, TypeScript, and OpenCV.js for high-performance image manipulation in the browser.",
       img: "/opencv-editor.png",
-      iconLists: ["/next.svg", "/ts.svg", "/tail.svg", "/github.svg"],
+      iconLists: nextTypescriptStack,
       link: "https://github.com/Leonfarhan/nextjs-opencv-image-editor",
     },
   ];

@@ -1,14 +1,11 @@
-"use client";
-
 import { projects } from "@/data";
-import React from "react";
 import { PinContainer } from "./ui/3d-pin";
 import Image from "next/image";
 
 const Projects = () => {
     return (
-        <div className="py-20">
-            <h1 className="heading">
+        <section className="py-20">
+            <h1 id="projects" className="heading">
                 Some of the <span className="text-purple">projects</span> I&apos;ve done
             </h1>
             <div className="mt-10 grid grid-cols-1 justify-items-center gap-x-12 gap-y-16 p-4 lg:grid-cols-2">
@@ -51,9 +48,9 @@ const Projects = () => {
 
                                 <div className="mt-auto flex items-center justify-between gap-4 pb-3">
                                     <div className="flex -space-x-2">
-                                        {item.iconLists.map((icon, index) => (
+                                        {item.iconLists.map((icon) => (
                                             <div
-                                                key={index}
+                                                key={icon}
                                                 className="relative flex h-8 w-8 items-center justify-center rounded-full border border-white/[.2] bg-black lg:h-10 lg:w-10"
                                             >
                                                 <Image src={icon} alt="" aria-hidden="true" fill sizes="32px" className="p-2 object-contain" />
@@ -73,7 +70,7 @@ const Projects = () => {
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };
 

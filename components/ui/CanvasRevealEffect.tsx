@@ -65,7 +65,7 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
                                                  shader = "",
                                                  center = ["x", "y"],
                                              }) => {
-    const uniforms = React.useMemo(() => {
+    const uniforms = React.useMemo<Uniforms>(() => {
         let colorsArray = [
             colors[0],
             colors[0],
@@ -175,12 +175,14 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
     );
 };
 
-type Uniforms = {
-    [key: string]: {
-        value: number[] | number[][] | number;
-        type: string;
-    };
-};
+type Uniform =
+    | { value: number; type: "uniform1f" }
+    | { value: number[]; type: "uniform1fv" | "uniform2f" | "uniform3f" }
+    | { value: number[][]; type: "uniform3fv" };
+
+type Uniforms = Record<string, Uniform>;
+type PreparedUniformValue = number | number[] | THREE.Vector2 | THREE.Vector3 | THREE.Vector3[];
+type PreparedUniforms = Record<string, { value: PreparedUniformValue; type?: string }>;
 const ShaderMaterial = ({
                             source,
                             uniforms,
@@ -192,7 +194,7 @@ const ShaderMaterial = ({
     uniforms: Uniforms;
 }) => {
     const { size } = useThree();
-    const ref = useRef<THREE.Mesh>();
+    const ref = useRef<THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial> | null>(null);
     let lastFrameTime = 0;
 
     useFrame(({ clock }) => {
@@ -203,16 +205,14 @@ const ShaderMaterial = ({
         }
         lastFrameTime = timestamp;
 
-        const material: any = ref.current.material;
-        const timeLocation = material.uniforms.u_time;
-        timeLocation.value = timestamp;
+        ref.current.material.uniforms.u_time.value = timestamp;
     });
 
-    const getUniforms = () => {
-        const preparedUniforms: any = {};
+    const material = useMemo(() => {
+        const preparedUniforms: PreparedUniforms = {};
 
         for (const uniformName in uniforms) {
-            const uniform: any = uniforms[uniformName];
+            const uniform = uniforms[uniformName];
 
             switch (uniform.type) {
                 case "uniform1f":
@@ -229,8 +229,8 @@ const ShaderMaterial = ({
                     break;
                 case "uniform3fv":
                     preparedUniforms[uniformName] = {
-                        value: uniform.value.map((v: number[]) =>
-                            new THREE.Vector3().fromArray(v)
+                        value: uniform.value.map((value) =>
+                            new THREE.Vector3().fromArray(value)
                         ),
                         type: "3fv",
                     };
@@ -241,22 +241,15 @@ const ShaderMaterial = ({
                         type: "2f",
                     };
                     break;
-                default:
-                    console.error(`Invalid uniform type for '${uniformName}'.`);
-                    break;
             }
         }
 
-        preparedUniforms["u_time"] = { value: 0, type: "1f" };
-        preparedUniforms["u_resolution"] = {
+        preparedUniforms.u_time = { value: 0, type: "1f" };
+        preparedUniforms.u_resolution = {
             value: new THREE.Vector2(size.width * 2, size.height * 2),
-        }; // Initialize u_resolution
-        return preparedUniforms;
-    };
+        };
 
-    // Shader material
-    const material = useMemo(() => {
-        const materialObject = new THREE.ShaderMaterial({
+        return new THREE.ShaderMaterial({
             vertexShader: `
       precision mediump float;
       in vec2 coordinates;
@@ -271,18 +264,16 @@ const ShaderMaterial = ({
       }
       `,
             fragmentShader: source,
-            uniforms: getUniforms(),
+            uniforms: preparedUniforms,
             glslVersion: THREE.GLSL3,
             blending: THREE.CustomBlending,
             blendSrc: THREE.SrcAlphaFactor,
             blendDst: THREE.OneFactor,
         });
-
-        return materialObject;
-    }, [size.width, size.height, source]);
+    }, [size.width, size.height, source, uniforms]);
 
     return (
-        <mesh ref={ref as any}>
+        <mesh ref={ref}>
             <planeGeometry args={[2, 2]} />
             <primitive object={material} attach="material" />
         </mesh>
@@ -298,11 +289,6 @@ const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
 };
 interface ShaderProps {
     source: string;
-    uniforms: {
-        [key: string]: {
-            value: number[] | number[][] | number;
-            type: string;
-        };
-    };
+    uniforms: Uniforms;
     maxFps?: number;
 }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CanvasRevealEffect } from "@/components/ui/CanvasRevealEffect";
@@ -10,7 +10,6 @@ const Sdlc = () => {
                 My <span className="text-purple"> Software Development Life Cycle </span>
             </h1>
             <div className="my-20 flex flex-col lg:flex-row items-center justify-center w-full gap-4">
-                {/* add des prop */}
                 <Card
                     title="Agile"
                     icon={<AceternityIcon order="Agile" />}
@@ -43,7 +42,6 @@ const Card = ({
                   title,
                   icon,
                   children,
-                  // add this one for the desc
                   des,
               }: {
     title: string;
@@ -83,15 +81,12 @@ const Card = ({
 
             <div className="relative z-20 px-10">
                 <div
-                    // add this for making it center
-                    // absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]
                     className="text-center group-hover/canvas-card:-translate-y-4 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]
         group-hover/canvas-card:opacity-0 transition duration-200 min-w-40 mx-auto flex items-center justify-center"
                 >
                     {icon}
                 </div>
                 <h2
-                    // change text-3xl, add text-center
                     className="dark:text-white text-center text-3xl opacity-0 group-hover/canvas-card:opacity-100
          relative z-10 text-black mt-4  font-bold group-hover/canvas-card:text-white
          group-hover/canvas-card:-translate-y-2 transition duration-200"
@@ -111,7 +106,6 @@ const Card = ({
     );
 };
 
-// add order prop for the Phase number change
 const AceternityIcon = ({ order }: { order: string }) => {
     return (
         <div>
@@ -122,7 +116,7 @@ const AceternityIcon = ({ order }: { order: string }) => {
     );
 };
 
-export const Icon = ({ className, ...rest }: any) => {
+export const Icon = ({ className, ...rest }: React.ComponentProps<"svg">) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

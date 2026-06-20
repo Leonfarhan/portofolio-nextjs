@@ -1,16 +1,20 @@
-    import { FaLocationArrow } from "react-icons/fa6";
-    import { socialMedia } from "@/data";
-    import BorderMagicButton from "@/components/ui/BorderMagicButton";
+import Image from "next/image";
+import { FaLocationArrow } from "react-icons/fa6";
+import { socialMedia } from "@/data";
+import BorderMagicButton from "@/components/ui/BorderMagicButton";
 
     const Footer = () => {
         return (
             <footer className="w-full pt-20 mb-[100px] md:mb-5" id="contact">
                 {/* background grid */}
                 <div className="w-full absolute left-0 -bottom-72 min-h-96">
-                    <img
+                    <Image
                         src="/footer-grid.svg"
-                        alt="grid"
-                        className="w-full h-full opacity-50 "
+                        alt=""
+                        aria-hidden="true"
+                        fill
+                        sizes="100vw"
+                        className="object-cover opacity-50"
                     />
                 </div>
 
@@ -34,12 +38,13 @@
 
                     <div className="flex items-center md:gap-3 gap-6">
                         {socialMedia.map((info) => (
-                            <a href={info.link} key={info.id}>
-                                <div
-                                    key={info.id}
-                                    className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-full border border-black-300"
-                                >
-                                    <img src={info.img} alt="icons" width={20} height={20}/>
+                            <a
+                                href={info.link}
+                                key={info.id}
+                                aria-label={info.id === 1 ? "GitHub" : "LinkedIn"}
+                            >
+                                <div className="w-10 h-10 cursor-pointer flex justify-center items-center backdrop-filter backdrop-blur-lg saturate-180 bg-opacity-75 bg-black-200 rounded-full border border-black-300">
+                                    <Image src={info.img} alt="" aria-hidden="true" width={20} height={20} />
                                 </div>
                             </a>
                         ))}

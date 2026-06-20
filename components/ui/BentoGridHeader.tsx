@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { BackgroundGradientAnimation } from "./BackgroundGradientAnimation";
 
@@ -21,18 +21,24 @@ export const BentoGridHeader = ({
     <>
       <div className="w-full h-full absolute">
         {img && (
-          <img
+          <Image
             src={img}
-            alt={img}
+            alt=""
+            aria-hidden="true"
+            width={351}
+            height={180}
             className={cn(imgClassName, "object-cover object-center")}
           />
         )}
       </div>
       <div className={cn("absolute right-0 -bottom-5", spareImgClassName)}>
         {spareImg && (
-          <img
+          <Image
             src={spareImg}
-            alt={spareImg}
+            alt=""
+            aria-hidden="true"
+            width={208}
+            height={96}
             className="object-cover object-center w-full h-full"
           />
         )}

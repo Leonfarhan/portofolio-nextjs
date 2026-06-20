@@ -1,8 +1,8 @@
-import React from "react";
+import Image from "next/image";
 
 import { workExperience } from "@/data";
 import { Button } from "./ui/MovingBorders";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 const Experience = () => {
     return (
@@ -27,9 +27,11 @@ const Experience = () => {
                         className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
                     >
                         <div className="flex lg:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2">
-                            <img
+                            <Image
                                 src={card.thumbnail}
-                                alt={card.thumbnail}
+                                alt={`${card.title} logo`}
+                                width={128}
+                                height={128}
                                 className={cn(
                                     "lg:w-32 md:w-20 w-16 bg-white rounded-2xl",
                                     card.id === 1 || card.id === 4 ? "px-2" : "p-2"
