@@ -29,7 +29,7 @@ const Hero = () => {
             />
 
           <p className="text-center md:tracking-wider mb-4 text-sm md:text-lg lg:text-2xl">
-            I am a <span className="text-purple">Full Stack & Backend Developer</span> specializing in high performance applications using Golang (Fiber/Chi) and React TypeScript. With expertise in modernizing production scale systems such as migrating an E-Learning CBT platform and integrating Groq API for fast AI analysis I design robust REST APIs and manage scalable cloud architectures across AWS and DigitalOcean.
+            I am a <span className="text-purple">Full Stack Engineer</span> specializing in React, Next.js, and TypeScript on the frontend, and Go (Fiber, Chi) on the backend. I build products end to end — from responsive UIs and scoring systems to REST APIs and deployments on DigitalOcean with Nginx and PostgreSQL. Open to discussing React and Go architecture, performance, or ed-tech and health-tech collaborations.
           </p>
         </div>
       </div>

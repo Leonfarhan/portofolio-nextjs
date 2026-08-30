@@ -16,7 +16,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Farhan's Portfolio",
-  description: "Minimalist Website",
+  description: "Farhan Alwahid — Full Stack Engineer. React, Next.js, TypeScript, and Go.",
 };
 
 export default function RootLayout({

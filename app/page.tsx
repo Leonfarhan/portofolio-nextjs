@@ -4,6 +4,7 @@ import Grid from '@/components/Grid'
 import Hero from '@/components/Hero'
 import Projects from '@/components/Projects'
 import Sdlc from "@/components/Sdlc";
+import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
         <FloatingNav navItems={ navItems }/>
         <Hero />
         <Grid />
+        <Experience />
         <Projects />
           <Sdlc/>
         <Footer/>

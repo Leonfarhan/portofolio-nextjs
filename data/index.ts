@@ -73,6 +73,14 @@ const nextTypescriptStack = ["/next.svg", "/ts.svg", "/tail.svg", "/github.svg"]
   export const projects = [
     {
       id: 1,
+      title: "CBT Optimal - UKOM Test Platform",
+      des: "Computer-Based Test platform for UKOM midwifery and nursing simulations. Built end to end: React exam UI with timers and scoring, Go (Fiber) API, AI-powered weak-area reports, Mayar payments, deployed on DigitalOcean.",
+      img: "/cbt-optimal.jpg",
+      iconLists: ["/re.svg", "/golang.svg", "/postgresql.svg", "/docker.svg", "/digitalocean.svg"],
+      link: "https://cbtoptimal.com",
+    },
+    {
+      id: 2,
       title: "Shopmate - E-Commerce Platform",
       des: "A full-featured E-Commerce and Payment platform using NestJS, Next.js, Stripe, PostgreSQL (AWS Aurora), Docker, and AWS Elastic Beanstalk.",
       img: "/shopmate.png",
@@ -104,21 +112,20 @@ const nextTypescriptStack = ["/next.svg", "/ts.svg", "/tail.svg", "/github.svg"]
       link: "https://github.com/Leonfarhan/nextjs-opencv-image-editor",
     },
   ];
-
 export const workExperience = [
   {
     id: 1,
-    title: "Software Engineer (Web Programmer) - PT Optimal Untuk Negeri",
-    desc: "Developed a CBT platform for competency simulations using React and Golang (Fiber). Integrated Groq API for AI-driventryout insights. Managed DO cloud infrastructure & PostgreSQL/Supabase databases.",
+    title: "Software Engineer - PT Optimal Untuk Negeri",
+    desc: "Built the CBT Optimal platform end to end for UKOM simulations: responsive exam UI with timers and scoring, Go (Fiber) APIs, and deployment on DigitalOcean with Nginx and PostgreSQL.",
     className: "md:col-span-2",
-    thumbnail: "/optimal.svg",
+    thumbnail: "/optimal-logo.png",
   },
   {
     id: 2,
     title: "Software Engineer Internship - PT Formulatrix Indonesia",
-    desc: "Implemented Redux state management to optimize frontend performance. Resolved React.js bugs, refactored codebase, and optimized performance using React.js best practices.",
+    desc: "Identified and resolved React UI bugs across Redux state, SCSS, and MUI. Refactored components and Redux logic to team standards and integrated backend APIs for feature development.",
     className: "md:col-span-2",
-    thumbnail: "/fm.svg",
+    thumbnail: "/formulatrix-logo.png",
   },
   {
     id: 3,
