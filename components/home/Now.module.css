@@ -1,0 +1,45 @@
+/* Now: the statement. The track head sits on cols 1 to 2, the statement on cols 3 to 12 at --t-l. Airy
+   rhythm (28u). The company link is an inline body link (underline at rest, a caption band on hover). */
+
+.now {
+  padding-block: clamp(calc(var(--u) * 12), 15vw, calc(var(--u) * 28));
+}
+
+.head {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  align-self: start;
+}
+
+.body {
+  grid-column: 3 / -1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.statement {
+  max-width: 24em;
+  font-size: var(--t-l);
+  font-weight: 560;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+.link {
+  margin-top: calc(var(--u) * 6);
+  font-size: var(--t-m);
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  .head {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin-bottom: calc(var(--u) * 4);
+  }
+
+  .body {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+}

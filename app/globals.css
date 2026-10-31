@@ -1,92 +1,779 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ============================================================================
+   CLIPPED: global styles. Tokens and type scale follow DESIGN.md. Component styles live in CSS Modules.
 
-@layer base {
+   Global classes (all of them are listed here):
+   .wrap          12-column grid after the ruler (4 columns on phones). Track header = cols 1-2,
+                  timeline content = cols 3-12. Phones: content full width, track header above it.
+   .display       Display (Bricolage Grotesque): wght 700, tracking -0.03em, leading 0.92, natural case. Names and titles.
+   .caption-type  Caption (TikTok Sans): wght 840, wdth 108, uppercase, leading 1. Burned-in captions and title lines.
+   .ui            UI (Bricolage Grotesque): 13 px, wght 560, no tracking, natural case, tabular figures. Track ids, labels, frame overlays.
+   .tc            Timecode (Bricolage Grotesque): tabular figures (tnum), no tracking. Pair with [data-timecode] (motion/playhead.ts writes it).
+   .prose         Text (Bricolage Grotesque): wght 400, 1.55 leading, 60ch measure.
+   .inout         Nav and link treatment: [ and ] brackets in --caption snap from the label centre to its
+                  edges on hover and focus-visible, centred on the label line. [aria-current] keeps them.
+   .link-draw     Utility link: underline draws in from the left. Hit area of 24 px or more, same rhythm.
+   .link-inline   Body link: underline at rest; on hover or focus a --caption render bar wipes in behind the text.
+   .ruler-ticks   Ruler ticks: a short tick every 24 px, a long tick every 240 px, painted into a box
+                  anchored to the right edge of its parent. Used by the ruler and the loader.
+   [data-check]   Checklist item with a box at its left edge. .is-checked (motion/playhead.ts) draws the
+                  yellow tick.
+   [data-caption] [data-word]
+                  Caption word. .is-on (motion/playhead.ts, motion/hero.ts) marks the active word in --caption.
+   [data-tc]      Timecode wrapper. Hidden without JS.
+   html.js        Set by the head script. html.motion: set when motion is allowed (not reduced).
+   html.is-loaded Set when the loader finishes.
+   #curtain, .curtain__panel, .curtain__in, .curtain__title, .curtain__first
+                  Page transition (motion/transition.ts).
+   #loader, .loader__panel, .loader__head, .loader__meter, .loader__count, .loader__bar, .loader__ruler,
+   .loader__razor Loader (motion/loader.ts, engine/loader.ts).
+   .skip-link, .sr-only, .sheet, #main, .split-line
+                  Engine foundation.
+   ============================================================================ */
+
+/* ----- Tokens ----- */
+:root {
+  /* Palette: the editor panel. Yellow means the part playing or selected right now. */
+  --ground: #101113;
+  --surface: #18191c;
+  --ink: #f3f2ef;
+  --muted: #9a9ba1;
+  --line: #2c2d32;
+  --caption: #ffd23f;
+  --rec: #ff4d4d;
+  --offline: #c8102e;
+
+  /* Engine aliases (the engine CSS reads these names). */
+  --c-bg: var(--ground);
+  --c-fg: var(--ink);
+  --c-muted: var(--muted);
+  --c-line: var(--line);
+  --c-accent: var(--caption);
+  --c-curtain: var(--surface);
+
+  /* Bricolage Grotesque (--font-sans) sets the type. TikTok Sans (--font-caption) sets the burned-in captions only. */
+  --f-sans: var(--font-sans), system-ui, sans-serif;
+  --f-caption: var(--font-caption), var(--f-sans);
+  --f-code: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --f-body: var(--f-sans);
+
+  /* Type scale. */
+  --t-mega: clamp(3.5rem, 0.6rem + 12vw, 14rem);
+  --t-xl: clamp(2.5rem, 1.2rem + 4.6vw, 6rem);
+  --t-l: clamp(1.625rem, 1.15rem + 1.8vw, 2.875rem);
+  --t-m: clamp(1.1875rem, 1.05rem + 0.55vw, 1.5rem);
+  --t-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --t-s: 0.875rem;
+  --t-xs: 0.75rem;
+
+  /* Space, grid and shape. --ruler is the timecode ruler on the left edge: content never enters it. */
+  --u: 8px;
+  --ruler: 64px;
+  --gutter: clamp(16px, 2vw, 32px);
+  --radius: 3px;
+  --header-h: calc(var(--u) * 8);
+
+  /* Layers: playhead line < content < ruler < playhead < header < curtain < loader. */
+  --z-content: 1;
+  --z-ruler: 2;
+  --z-playhead: 30;
+  --z-header: 50;
+  --z-curtain: 90;
+  --z-loader: 100;
+}
+
+@media (max-width: 767px) {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --ruler: 18px;
+    --header-h: calc(var(--u) * 7);
   }
 }
 
-@layer base {
-  * {
-    @apply border-border !scroll-smooth;
-  }
-  html {
-    scroll-padding-top: 7rem;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button {
-    @apply active:outline-none;
+/* ----- Base ----- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  background: var(--c-bg);
+  color: var(--c-fg);
+  /* Bricolage's optical size follows the font size (opsz 12 to 96): 12 px text and 200 px names each get their own cut. */
+  font-optical-sizing: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) var(--ground);
+}
+
+html::-webkit-scrollbar {
+  width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--ground);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--muted);
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--f-body);
+  font-size: var(--t-body);
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  overflow-x: clip;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: inherit;
+  font-size: inherit;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--caption);
+  color: var(--ground);
+}
+
+/* Focus: 2 px --caption outline, 3 px offset. Square corners only. */
+:focus-visible {
+  outline: 2px solid var(--caption);
+  outline-offset: 3px;
+}
+
+#main:focus {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  left: var(--gutter);
+  top: var(--gutter);
+  z-index: calc(var(--z-loader) + 1);
+  padding: 0.6em 1em;
+  background: var(--caption);
+  color: var(--ground);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Sheet: the page body. It is positioned so the ruler spans the whole document height. */
+.sheet {
+  position: relative;
+}
+
+/* Page content, the footer included, sits above the playhead line (which runs under it). */
+#main,
+.sheet > footer {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* Hidden until revealed: only when motion is allowed and JS runs. */
+.motion [data-split],
+.motion [data-reveal] {
+  visibility: hidden;
+}
+
+/* The deadline path (app/layout.tsx): the loader left before the bundle booted, so the page shows its end state at once.
+   The engine clears the flag and skips the intro when it arrives. */
+.motion.is-deadline [data-split],
+.motion.is-deadline [data-reveal] {
+  visibility: visible;
+}
+
+.split-line {
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* The SplitText mask clips at its padding box. The lip keeps the last glyph's ink when tracking is negative (display type),
+   and the negative margin keeps every line the width it had. */
+.split-line-mask {
+  padding-right: 0.1em;
+  margin-right: -0.1em;
+}
+
+/* The lip runs 0.1em past the heading's right edge. The heading's own padding takes it, so no data-split heading reports
+   scroll overflow. Nothing is clipped: the lip is empty space. */
+[data-split] {
+  padding-right: 0.1em;
+}
+
+/* SplitText turns each line into a block: keep text-indent on the first line only. */
+[data-split] > *,
+[data-split] > * > * {
+  text-indent: 0;
+}
+
+[data-split] > :first-child,
+[data-split] > :first-child > :first-child {
+  text-indent: inherit;
+}
+
+/* Timecodes need JS: without it they are hidden. */
+html:not(.js) [data-tc] {
+  display: none;
+}
+
+/* ----- Shared type and layout ----- */
+
+/* 12-column grid. Track header = cols 1-2, timeline content = cols 3-12. Phones: 4 columns. */
+.wrap {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  padding-left: calc(var(--ruler) + var(--gutter));
+  padding-right: var(--gutter);
+}
+
+@media (max-width: 767px) {
+  .wrap {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
-@layer utilities {
-  .heading {
-    @apply font-bold text-4xl md:text-5xl text-center;
+/* Display: names, project titles, section statements. */
+.display {
+  font-family: var(--f-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+/* Caption: burned-in captions, the page-transition title and the 404 field. Uppercase: the one place capitals stay. */
+.caption-type {
+  font-family: var(--f-caption);
+  font-weight: 840;
+  font-stretch: 108%;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* UI: track ids, labels, frame overlays. */
+.ui {
+  font-family: var(--f-sans);
+  font-weight: 560;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  letter-spacing: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Timecode: HH:MM:SS:FF. Tabular figures (Bricolage's tnum digits share one advance), so the count does not jitter. */
+.tc {
+  font-family: var(--f-sans);
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: normal;
+}
+
+/* Text: Bricolage Grotesque, wght 400, 1.55 leading, 60ch measure. */
+.prose {
+  font-family: var(--f-sans);
+  font-weight: 400;
+  max-width: 60ch;
+  font-size: var(--t-body);
+  line-height: 1.55;
+}
+
+/* ----- Ticks and brackets ----- */
+
+/* Ruler ticks. The box spans the parent's height and sits on its right edge. A short tick every 24 px,
+   a long tick every 240 px (10 ticks, the timecode label rides on it). Phones: shorter ticks. */
+.ruler-ticks {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px 240px),
+    repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px 24px);
+  background-size: 100% 100%, 10px 100%;
+  background-position: right top, right top;
+  background-repeat: no-repeat, no-repeat;
+}
+
+@media (max-width: 767px) {
+  .ruler-ticks {
+    width: 10px;
+    background-size: 100% 100%, 5px 100%;
+  }
+}
+
+/* Inout: the in and out brackets sit centred on the label's line (height = line box + 4 px). They are 1.5 px --caption
+   borders, and snap from the label's centre to its edges. The rest state hides them under the label. */
+.inout {
+  position: relative;
+  display: inline-block;
+}
+
+.inout::before,
+.inout::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: calc(1.55em + 4px);
+  height: calc(1lh + 4px);
+  translate: 0 -50%;
+  border: 1.5px solid var(--caption);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    right 0.12s cubic-bezier(0.2, 0.9, 0.2, 1),
+    left 0.12s cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 0.08s linear;
+}
+
+.inout::before {
+  right: 50%;
+  border-right: 0;
+}
+
+.inout::after {
+  left: 50%;
+  border-left: 0;
+}
+
+.inout[aria-current]::before,
+.inout[aria-current]::after {
+  opacity: 1;
+}
+
+.inout[aria-current]::before {
+  right: calc(100% + 0.25em);
+}
+
+.inout[aria-current]::after {
+  left: calc(100% + 0.25em);
+}
+
+@media (hover: hover) {
+  .inout:hover::before {
+    right: calc(100% + 0.25em);
+    opacity: 1;
   }
 
-  .black-gradient {
-    background: linear-gradient(90deg, #161a31 0%, #06091f 100%);
+  .inout:hover::after {
+    left: calc(100% + 0.25em);
+    opacity: 1;
+  }
+
+  /* The current item already shows its brackets: under the pointer they open 3 px wider, a trim being dragged. */
+  .inout[aria-current]:hover::before {
+    translate: -3px -50%;
+  }
+
+  .inout[aria-current]:hover::after {
+    translate: 3px -50%;
+  }
+}
+
+.inout[aria-current]:focus-visible::before {
+  translate: -3px -50%;
+}
+
+.inout[aria-current]:focus-visible::after {
+  translate: 3px -50%;
+}
+
+.inout:focus-visible::before {
+  right: calc(100% + 0.25em);
+  opacity: 1;
+}
+
+.inout:focus-visible::after {
+  left: calc(100% + 0.25em);
+  opacity: 1;
+}
+
+/* Utility link: the underline draws in from the left. The padding gives a hit area of 24 px or more; the negative margin
+   and the content-box origin keep the line and its rhythm where they were. */
+.link-draw {
+  padding-block: 6px;
+  margin-block: -6px;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0% 1px no-repeat;
+  background-origin: content-box;
+  transition: background-size 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+  .link-draw:hover {
+    background-size: 100% 1px;
+  }
+}
+
+.link-draw:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Inline body link: underline at rest. On hover or focus a --caption render bar wipes in from the left, hard-edged,
+   behind the text, and the text turns --ground. Same hit area as .link-draw. Reduced motion: instant. */
+.link-inline {
+  padding-block: 6px;
+  margin-block: -6px;
+  background:
+    linear-gradient(var(--ink), var(--ink)) left bottom / 100% 1px no-repeat,
+    linear-gradient(var(--caption), var(--caption)) left top / 0% 100% no-repeat;
+  background-origin: content-box;
+  transition:
+    background-size 0.3s cubic-bezier(0.33, 1, 0.68, 1),
+    color 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+  .link-inline:hover {
+    background-size: 100% 1px, 100% 100%;
+    color: var(--ground);
+  }
+}
+
+.link-inline:focus-visible {
+  background-size: 100% 1px, 100% 100%;
+  color: var(--ground);
+}
+
+/* Checklist item: an empty box at the left edge. .is-checked draws a yellow tick (playhead). */
+[data-check] {
+  position: relative;
+  padding-left: 1.7em;
+}
+
+[data-check]::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  width: 0.95em;
+  height: 0.95em;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: border-color 0.2s linear;
+}
+
+[data-check]::after {
+  content: '';
+  position: absolute;
+  left: 0.33em;
+  top: 0.12em;
+  width: 0.42em;
+  height: 0.8em;
+  border: solid var(--caption);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  clip-path: inset(0 100% 0 0);
+}
+
+[data-check].is-checked::before {
+  border-color: var(--caption);
+}
+
+[data-check].is-checked::after {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* Caption words. The active word takes --caption and pops (lifts 0.08em, 0.08 s). */
+[data-caption] [data-word] {
+  display: inline-block;
+}
+
+[data-caption] [data-word].is-on {
+  color: var(--caption);
+  animation: word-pop 0.08s ease-out;
+}
+
+/* The pop lifts the word instead of scaling it, so a long word never eats the space beside it. */
+@keyframes word-pop {
+  from {
+    transform: translateY(-0.08em);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ----- Curtain: page transition. No CSS transform on the panel: GSAP owns it. ----- */
+#curtain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-curtain);
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.curtain__panel {
+  position: absolute;
+  inset: 0;
+  background: var(--c-curtain);
+}
+
+/* In-point bracket on the panel's leading edge (its left edge: the panel enters from the right). */
+.curtain__in {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 14px;
+  height: 120px;
+  margin-top: -60px;
+  border: 2px solid var(--caption);
+  border-right: 0;
+}
+
+.curtain__title {
+  position: absolute;
+  left: calc(var(--ruler) + var(--gutter));
+  right: var(--gutter);
+  top: 50%;
+  translate: 0 -50%;
+  font-size: min(var(--t-xl), calc((100vw - var(--ruler) - 2 * var(--gutter)) / 9));
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.curtain__first {
+  color: var(--caption);
+}
+
+/* ----- Loader: two panels meet at the playhead. The split is at the centre of the content area. ----- */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-loader);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.loader__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--ground);
+}
+
+.loader__panel--left {
+  left: 0;
+  width: calc(var(--ruler) + (100% - var(--ruler)) / 2);
+}
+
+.loader__panel--right {
+  right: 0;
+  width: calc((100% - var(--ruler)) / 2);
+}
+
+/* Same grid as the header: name left, the counter where the header timecode sits. */
+.loader__head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding-left: calc(var(--ruler) + var(--gutter));
+  padding-right: var(--gutter);
+}
+
+.loader__name {
+  font-family: var(--f-sans);
+  font-weight: 650;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.loader__meter {
+  position: relative;
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--ink);
+}
+
+/* The counter sits where the header's timecode sits, so the handoff lands on the header. */
+.loader__count {
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+
+/* The label sits under the counter and does not move it. */
+.loader__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 8px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Render bar across the top. The engine sets its clip-path: the visible part grows from the left. */
+.loader__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--caption);
+  clip-path: inset(0 100% 0 0);
+}
+
+/* Ruler ticks printed down the left edge. The engine sets the clip-path from the top. */
+.loader__ruler {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--ruler);
+  border-right: 1px solid var(--line);
+  clip-path: inset(0 0 100% 0);
+}
+
+/* The razor: a yellow line at the playhead's x. Drops from the top at the exit. */
+.loader__razor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--ruler) + (100% - var(--ruler)) / 2);
+  width: 2px;
+  margin-left: -1px;
+  background: var(--caption);
+  clip-path: inset(0 0 100% 0);
+}
+
+html:not(.js) #loader,
+#loader[hidden] {
+  display: none;
+}
+
+/* The deadline exit (app/layout.tsx): the same cut as motion/loader.ts, in CSS, for a boot that arrives too late.
+   The razor drops, the two panels slide apart, the meter clears; the script hides the sheet 380 ms later. */
+#loader[data-expired] .loader__panel {
+  transition: translate 0.34s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+#loader[data-expired] .loader__panel--left {
+  translate: -100% 0;
+}
+
+#loader[data-expired] .loader__panel--right {
+  translate: 100% 0;
+}
+
+#loader[data-expired] .loader__head,
+#loader[data-expired] .loader__bar,
+#loader[data-expired] .loader__ruler {
+  opacity: 0;
+  transition: opacity 0.12s linear;
+}
+
+#loader[data-expired] .loader__razor {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.12s linear;
+}
+
+/* ----- Reduced motion: every transition and animation ends at once. ----- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

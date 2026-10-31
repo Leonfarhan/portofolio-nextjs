@@ -1,0 +1,380 @@
+/* Case page (/work/<slug>): one clip opened in the editor (DESIGN.md, clipped). Every band is a .wrap row: the
+   track header in cols 1 to 2 (TrackHead and UI labels), the timeline in cols 3 to 12. Bands are separated by
+   1 px --line rules. Phones (4 columns) stack each track header above its content. */
+
+.band {
+  padding-block: calc(var(--u) * 8);
+  border-top: 1px solid var(--line);
+}
+
+.track {
+  grid-column: 1 / span 2;
+  min-width: 0;
+  color: var(--muted);
+}
+
+.main {
+  grid-column: 3 / -1;
+  min-width: 0;
+}
+
+/* Top: the clip's header. The track header holds the track chip, the clip number and the way back. */
+.top {
+  padding-top: calc(var(--header-h) + var(--u) * 8);
+  padding-bottom: calc(var(--u) * 4);
+}
+
+.clipLabel {
+  margin-top: calc(var(--u) * 3);
+  color: var(--ink);
+}
+
+.back {
+  display: inline-block;
+  margin-top: calc(var(--u) * 2);
+  padding-block: calc(var(--u) / 2);
+  color: var(--ink);
+}
+
+.title {
+  font-size: var(--t-xl);
+  color: var(--ink);
+}
+
+.summary {
+  max-width: 44ch;
+  margin-top: calc(var(--u) * 3);
+  font-size: var(--t-m);
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+/* Meta: one row per property. The label is the track header (cols 1 to 2), the value the timeline (cols 3 to 12). */
+.meta {
+  margin: 0;
+}
+
+.metaRow {
+  align-items: start;
+  padding-block: calc(var(--u) * 1.5);
+  border-top: 1px solid var(--line);
+}
+
+.rowLabel {
+  grid-column: 1 / span 2;
+  min-width: 0;
+  color: var(--muted);
+}
+
+.rowValue {
+  grid-column: 3 / -1;
+  min-width: 0;
+}
+
+.year {
+  font-family: var(--f-sans);
+  font-weight: 560;
+  font-size: var(--t-m);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--u) * 2) calc(var(--u) * 3);
+}
+
+.ext {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-left: 0.3em;
+  vertical-align: -0.05em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: square;
+}
+
+/* Hero band: a tighter top, so the clip starts inside the first screen after the title block. */
+.hero {
+  padding-top: calc(var(--u) * 4);
+  padding-bottom: 0;
+}
+
+/* Hero: the clip frame across the full band (cols 1 to 12). */
+.heroFrame {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+/* Subtitle lane: the S1 track directly under the hero frame. The track header sits in cols 1 to 2 and the block in
+   cols 3 to 12. The block is a flat #26272c panel with a 2 px --caption in-point on its leading edge, as the clip
+   blocks in Tracks. Phones: the header stacks above and the block runs full width. */
+.lane {
+  align-items: center;
+  padding-block: calc(var(--u) * 2);
+  border-top: 1px solid var(--line);
+}
+
+.subBlock {
+  grid-column: 3 / -1;
+  min-width: 0;
+  position: relative;
+  padding: calc(var(--u) * 2) calc(var(--u) * 2.5) calc(var(--u) * 2) calc(var(--u) * 3);
+  border-radius: var(--radius);
+  background: #26272c;
+  color: var(--ink);
+}
+
+.subBlock::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  border-radius: var(--radius) 0 0 var(--radius);
+  background: var(--caption);
+}
+
+/* Context and idea: two columns on the timeline, each with its UI label above the prose. */
+.pair {
+  grid-column: 3 / -1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: calc(var(--u) * 6);
+}
+
+.pairLabel {
+  display: block;
+  margin-bottom: calc(var(--u) * 2);
+  color: var(--muted);
+}
+
+/* Checks: the craft list. globals.css draws each line's box and yellow tick (data-check); the playhead sets
+   .is-checked as the line crosses it. */
+.checks {
+  grid-column: 3 / -1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.check {
+  padding-block: calc(var(--u) * 2);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-body);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* globals.css anchors the check box and tick at the item's top edge. The item has 2u of padding, so both
+   are offset by that padding and centred on the 1.45 line box beneath it. */
+.check[data-check]::before {
+  top: calc(var(--u) * 2 + 0.25em);
+}
+
+.check[data-check]::after {
+  top: calc(var(--u) * 2 + 0.32em);
+}
+
+/* Without motion or JS the playhead never runs, so every line prints ticked. */
+:global(html:not(.motion)) .checks [data-check]::before {
+  border-color: var(--caption);
+}
+
+:global(html:not(.motion)) .checks [data-check]::after {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Frames: the gallery wall on the timeline (10 columns). Each frame takes its placement from --col; a frame that
+   drops sits 20vh lower. */
+.wall {
+  grid-column: 3 / -1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: calc(var(--u) * 10);
+  align-items: start;
+}
+
+.wallItem {
+  grid-column: var(--col, 1 / -1);
+  min-width: 0;
+}
+
+.drop {
+  margin-top: 20vh;
+}
+
+/* Outcome: one statement at the large scale. Scoped under the band so the display leading does not win. */
+.band .statement {
+  grid-column: 3 / -1;
+  min-width: 0;
+  max-width: 30ch;
+  font-size: var(--t-l);
+  line-height: 1.12;
+  color: var(--ink);
+}
+
+/* Next clip: a BoxLink (its render bar, label and arrow are the CTA's one treatment), across the timeline. The
+   number chip and the display title sit inside it; the title slides on hover. */
+.next {
+  grid-column: 3 / -1;
+  min-width: 0;
+}
+
+.next > a {
+  display: flex;
+  width: 100%;
+  padding: calc(var(--u) * 3);
+  font-size: var(--t-xl);
+  line-height: 0.9;
+}
+
+/* BoxLink draws its label in two stacked rows (the ink row and a ground copy clipped to the fill). Both rows span
+   the link, so the arrow sits at the far right of each. */
+.next > a > :last-child {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.next [data-label],
+.next [data-fill-invert] {
+  justify-self: stretch;
+}
+
+.next svg {
+  flex: none;
+  width: 0.45em;
+  height: 0.45em;
+  margin-left: auto;
+  stroke-width: 1;
+}
+
+.nextRow {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2.5);
+  min-width: 0;
+}
+
+.chip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0.3em 0.5em;
+  border: 1px solid currentColor;
+  border-radius: var(--radius);
+  font-family: var(--f-sans);
+  font-size: var(--t-m);
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.nextTitle {
+  min-width: 0;
+  transition: translate 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* BoxLink clips each label copy to its row box, so the row must hold the descenders (0.9 leading would cut them). */
+.next .nextTitle {
+  line-height: 1;
+  padding-bottom: 0.12em;
+}
+
+@media (hover: hover) {
+  .next > a:hover .nextTitle {
+    translate: 0.4em 0;
+  }
+}
+
+.next > a:focus-visible .nextTitle,
+.next > a:active .nextTitle,
+.next > a:global(.is-filled) .nextTitle {
+  translate: 0.4em 0;
+}
+
+/* Tablet: the frame wall takes the full timeline in one column below 1180 px. */
+@media (max-width: 1179px) {
+  .wallItem {
+    grid-column: 1 / -1;
+  }
+
+  .drop {
+    margin-top: 0;
+  }
+}
+
+/* Under 1024 px the context and idea pair stacks. */
+@media (max-width: 1023px) {
+  .pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Phones: four columns. Each track header sits above its content; bands and rows tighten. */
+@media (max-width: 767px) {
+  .track,
+  .main,
+  .heroFrame,
+  .subBlock,
+  .rowLabel,
+  .rowValue,
+  .pair,
+  .checks,
+  .wall,
+  .next,
+  .band .statement {
+    grid-column: 1 / -1;
+  }
+
+  .track {
+    margin-bottom: calc(var(--u) * 2);
+  }
+
+  .band {
+    padding-block: calc(var(--u) * 6);
+  }
+
+  .top {
+    padding-top: calc(var(--header-h) + var(--u) * 5);
+    padding-bottom: calc(var(--u) * 2);
+  }
+
+  .hero {
+    padding-top: calc(var(--u) * 3);
+  }
+
+  .wall {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: calc(var(--u) * 8);
+  }
+
+  .wallItem {
+    grid-column: 1 / -1;
+  }
+
+  .drop {
+    margin-top: 0;
+  }
+
+  .next > a {
+    padding: calc(var(--u) * 2.5);
+    font-size: var(--t-l);
+  }
+
+  .band .statement {
+    font-size: var(--t-l);
+  }
+}

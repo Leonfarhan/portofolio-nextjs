@@ -1,0 +1,313 @@
+/* Hero: the scene. Desktop: track column (cols 1-2), 16:9 source (cols 3-12), intro and cue below. The crop moves by
+   transform and clip-path only, so the hero never shifts layout (CLS). Layers, bottom to top: the frame, the dim outside
+   the crop, the dim name (aria-hidden, muted), the window with the full-ink h1 clipped to it, the crop edge and guides
+   (SVG strokes), the four overlays on --surface plates, and the caption. Phones: a 16:7 strip with the name fitted to it,
+   the window drifting across the name; the caption fills the block, and the intro and cue pin to the bottom. */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--header-h) + 24px) 0 32px;
+}
+
+.wrap {
+  row-gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+.side {
+  grid-column: 1 / span 2;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.stack {
+  color: var(--muted);
+}
+
+.main {
+  grid-column: 3 / span 10;
+  min-width: 0;
+}
+
+/* The stage owns the crop. --cx is the window centre and --cw its width, both as fractions of the frame width; --wl is the
+   window's left edge. JS writes --cx and --cw on desktop only. The phone values below are CSS. */
+.stage {
+  --cx: 0.72;
+  --cw: 0.31640625;
+  --wl: clamp(0, calc(var(--cx) - var(--cw) / 2), calc(1 - var(--cw)));
+  position: relative;
+  container-type: inline-size;
+  width: min(100%, calc((100svh - 230px) * 16 / 9));
+}
+
+.source {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+/* The frame outside the crop: ground at 78%, clipped to the outside of the window. */
+.dimL,
+.dimR {
+  position: absolute;
+  inset: 0;
+  background: rgb(16 17 19 / 0.78);
+  pointer-events: none;
+}
+
+.dimL {
+  clip-path: inset(0 calc((1 - var(--wl)) * 100%) 0 0);
+}
+
+.dimR {
+  clip-path: inset(0 0 0 calc((var(--wl) + var(--cw)) * 100%));
+}
+
+/* The name, shared by the dim copy and the h1. Placed from the frame's left edge, vertically centred. Bricolage 700 in
+   natural case, tracking -0.03em. opsz is pinned to 96 so the cut does not widen at small sizes (auto optical sizing
+   would widen it below 96 px and break the fit). At 14.55cqw the one-line width is 92% of the frame at every width. */
+.name {
+  position: absolute;
+  left: 3cqw;
+  top: 50%;
+  translate: 0 -50%;
+  margin: 0;
+  overflow: hidden;
+  padding: 0.04em 0;
+  font-family: var(--f-sans);
+  font-weight: 700;
+  font-variation-settings: 'opsz' 96;
+  font-size: 14.55cqw;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+/* The intro rises this line out of the name's mask. */
+.inner {
+  display: block;
+}
+
+/* The dim copy: aria-hidden, outside the h1. Muted reads at about 6:1 on the frame (ink at 22% read at 1.9:1). */
+.dim {
+  color: var(--muted);
+}
+
+/* The crop window: the full-ink h1 clipped to the window. clip-path only, so moving the crop costs no layout. */
+.window {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc((1 - var(--wl) - var(--cw)) * 100%) 0 calc(var(--wl) * 100%));
+}
+
+/* The crop edge and the safe guides: SVG strokes in a 100 by 100 box, moved and stretched with transforms. The strokes
+   are non-scaling, so both lines stay 1 px whatever the window width. */
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.crop {
+  transform: translate(calc(var(--wl) * 100px), 0) scale(var(--cw), 1);
+}
+
+.edge,
+.guide {
+  fill: none;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.edge {
+  stroke: rgb(243 242 239 / 0.9);
+}
+
+/* Hidden at rest (only the window outline shows). The hero intro blinks the guides once (motion/hero.ts) and they stay at 0. */
+.guide {
+  stroke: rgb(243 242 239 / 0.4);
+  opacity: 0;
+}
+
+/* Overlays: four plates on --surface, above the window, so the drift passes under them and never over them. */
+.plate {
+  position: absolute;
+  z-index: 2;
+  padding: 4px 8px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.topLeft {
+  top: 12px;
+  left: 12px;
+}
+
+.topRight {
+  top: 12px;
+  right: 12px;
+}
+
+.bottomRight {
+  bottom: 12px;
+  right: 12px;
+}
+
+.timecode {
+  left: 12px;
+  bottom: 12px;
+  font-size: 0.8125rem;
+}
+
+/* The caption: the window's lower third. Constant width (the 9:16 window), moved with translate only. */
+.caption {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  bottom: 8%;
+  width: 31.640625cqw;
+  padding: 0 12px;
+  font-size: 3.5cqw;
+  translate: calc(var(--wl) * 100cqw) 0;
+  pointer-events: none;
+}
+
+.foot {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+  align-items: end;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.intro {
+  max-width: 60ch;
+  font-size: var(--t-body);
+  line-height: 1.55;
+  /* No hidden-until-intro state: this line is the largest text above the fold and the LCP element on a phone, so it
+     paints with the server HTML. The name and the crop carry the entrance. */
+  visibility: visible;
+}
+
+.cue {
+  justify-self: end;
+  padding: 14px 0;
+  font-family: var(--f-sans);
+  font-weight: 560;
+  font-size: 0.8125rem;
+  letter-spacing: normal;
+  color: var(--ink);
+}
+
+/* The arrow after the label travels 4 px down on hover and on keyboard focus, like the nav's brackets. */
+.arrow {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 0.5em;
+  vertical-align: middle;
+  transition: translate 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+  .cue:hover .arrow {
+    translate: 0 4px;
+  }
+}
+
+.cue:focus-visible .arrow {
+  translate: 0 4px;
+}
+
+/* Phones: the source is a 16 by 7 strip. The window is 9 by 16 of the strip's height and drifts across the name, which
+   fits the strip as it does on desktop. The caption takes the block below the strip; the intro and cue pin to the bottom. */
+@media (max-width: 767px) {
+  .hero {
+    justify-content: flex-start;
+    padding: calc(var(--header-h) + 16px) 0 24px;
+  }
+
+  .wrap {
+    grid-template-rows: auto 1fr;
+    align-items: stretch;
+    row-gap: 16px;
+    min-height: calc(100svh - var(--header-h) - 40px);
+  }
+
+  .side {
+    grid-column: 1 / -1;
+    gap: 8px;
+  }
+
+  .main {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stage {
+    --cx: 0.5;
+    --cw: 0.24609375;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .source {
+    flex: none;
+    aspect-ratio: 16 / 7;
+  }
+
+  .topLeft,
+  .topRight,
+  .bottomRight {
+    display: none;
+  }
+
+  .timecode {
+    left: 8px;
+    bottom: 8px;
+    font-size: 0.75rem;
+  }
+
+  /* Centred in the space under the strip by auto margins, not by flex on the caption itself: as a flex container its
+     words would each become a flex item and stack one per line. */
+  .caption {
+    position: static;
+    z-index: auto;
+    flex: none;
+    margin-block: auto;
+    width: auto;
+    padding: 16px 0 0;
+    font-size: clamp(2rem, 11vw, 2.75rem);
+    translate: none;
+  }
+
+  .foot {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .cue {
+    justify-self: start;
+  }
+}

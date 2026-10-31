@@ -1,0 +1,102 @@
+/* Tracks: the four editor lanes of one project. A used lane holds one clip block (dark fill, yellow in-point
+   bar, label); an unused lane holds an empty dashed outline. */
+
+/* Defaults: 26 px clips, 6 px between rows. */
+.tracks {
+  --clip-h: 26px;
+  display: grid;
+  row-gap: 6px;
+  width: 100%;
+  min-width: 0;
+  font-size: 0.8125rem; /* UI type size; the lane-name column is sized in em of it */
+}
+
+/* Compact (the work list): 22 px clips, 4 px between rows. Follows .tracks so it overrides on the same element. */
+.compact {
+  --clip-h: 22px;
+  row-gap: 4px;
+}
+
+/* One lane: the name column (5.5em), a 12 px gap, then the track cell (1fr). */
+.lane {
+  display: grid;
+  grid-template-columns: 5.5em minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+/* UI type: the lane name and the clip label. */
+.name,
+.text {
+  font-family: var(--f-sans);
+  font-weight: 560;
+  font-size: 0.8125rem;
+  letter-spacing: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+.name {
+  color: var(--muted);
+}
+
+.nameOn {
+  color: var(--ink);
+}
+
+.track {
+  display: block;
+  min-width: 0;
+}
+
+/* A used lane's clip: #26272C fill, 1 px --line border, a 3 px --caption bar inside the left border, and the
+   label 12 px after the bar. */
+.clip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--clip-h);
+  padding: 0 10px 0 15px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #26272C;
+}
+
+.clip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: var(--caption);
+}
+
+/* The label wraps onto a second line in a narrow clip, and the clip grows to fit, so no label is cut. */
+.text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: break-word;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* An unused lane: an empty dashed outline. No fill, no text. */
+.empty {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--clip-h);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+/* Phones: the name column narrows; clips stay full width. */
+@media (max-width: 767px) {
+  .lane {
+    grid-template-columns: 4.4em minmax(0, 1fr);
+  }
+}

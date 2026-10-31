@@ -1,24 +1,24 @@
-import { FloatingNav } from '@/components/ui/FloatingNavbar'
-import { navItems } from "@/data";
-import Grid from '@/components/Grid'
-import Hero from '@/components/Hero'
-import Projects from '@/components/Projects'
-import Sdlc from "@/components/Sdlc";
-import Experience from "@/components/Experience";
-import Footer from "@/components/Footer";
+import type { Metadata } from 'next';
+import { Hero } from '@/components/home/Hero';
+import { Now } from '@/components/home/Now';
+import { Work } from '@/components/home/Work';
+import { Experience } from '@/components/home/Experience';
+import { Stack } from '@/components/home/Stack';
+import { Method } from '@/components/home/Method';
 
+export const metadata: Metadata = { alternates: { canonical: '/' } };
+
+// Hero (scene), Now (statement), V1 Work (five stacked clips), A1 Experience (a track), Bin Stack (the media bin),
+// V2 Method (two cuts, one length). The export footer (#contact) is rendered by the layout.
 export default function Home() {
-  return(
-    <main className="relative bg-black-100 flex justify-center items-center flex-col overflow-clip mx-auto sm:px-10 px-5">
-      <div className="max-w-7xl w-full">
-        <FloatingNav navItems={ navItems }/>
-        <Hero />
-        <Grid />
-        <Experience />
-        <Projects />
-          <Sdlc/>
-        <Footer/>
-      </div>
-    </main>
-  )
+  return (
+    <>
+      <Hero />
+      <Now />
+      <Work />
+      <Experience />
+      <Stack />
+      <Method />
+    </>
+  );
 }

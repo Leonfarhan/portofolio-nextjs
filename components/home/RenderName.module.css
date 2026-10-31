@@ -1,0 +1,27 @@
+/* The footer name: one line, sized from its own container (cqi). At 15cqi the name is 95% of the row at every width.
+   opsz is pinned to 96 (as in the hero) so the cut, and so the width per em, does not change with the size. The render
+   bar is printed only under motion (.motion on <html>); RenderName.tsx wipes it away. */
+
+.name {
+  position: relative;
+  margin: 0;
+  font-size: 15cqi;
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+/* The render bar covers the name until its hard leading edge has passed. */
+.bar {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: var(--caption);
+  clip-path: inset(0% 0% 0% 0%);
+}
+
+:global(.motion) .bar {
+  display: block;
+}

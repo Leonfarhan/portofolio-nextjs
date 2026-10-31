@@ -1,0 +1,161 @@
+/* 404: "Media offline" (DESIGN.md). The editor's offline frame: a 16:9 field in --offline, the caption and the
+   requested address centred in it. Below it the case page's grid: track headers in cols 1 to 2, content in cols 3
+   to 12. Phones stack each track header above its content. */
+
+.page {
+  padding-top: calc(var(--header-h) + var(--u) * 10);
+  padding-bottom: calc(var(--u) * 16);
+}
+
+.band {
+  padding-block: calc(var(--u) * 6);
+  border-top: 1px solid var(--line);
+}
+
+.track {
+  grid-column: 1 / span 2;
+  min-width: 0;
+}
+
+.main {
+  grid-column: 3 / -1;
+  min-width: 0;
+}
+
+/* The field. 16:9, flat --offline, no gradient, 3 px radius. Capped in width so the heading stays in the first
+   screen on desktop. */
+.field {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: calc(var(--u) * 2);
+  aspect-ratio: 16 / 9;
+  max-width: 46rem;
+  padding: calc(var(--u) * 4);
+  border-radius: var(--radius);
+  background: var(--offline);
+  color: var(--ink);
+  text-align: center;
+}
+
+.fieldTitle {
+  font-size: clamp(1.75rem, 1rem + 3.2vw, 3.75rem);
+  line-height: 1;
+}
+
+.path {
+  max-width: 100%;
+  font-size: var(--t-s);
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+
+.heading {
+  margin-top: calc(var(--u) * 8);
+  /* Bricolage 700 at -0.03em. At 390 the heading is one line with room to spare (about 85% of the column). The 9.5vw
+     cap keeps that room on narrow phones: one line holds down to about 285 px wide. */
+  font-size: min(var(--t-xl), 9.5vw);
+  color: var(--ink);
+}
+
+.copy {
+  max-width: 60ch;
+  margin-top: calc(var(--u) * 4);
+}
+
+.cta {
+  margin-top: calc(var(--u) * 6);
+}
+
+/* The five clips: a list of rows. Each row is one link (the focus target). */
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  border-top: 1px solid var(--line);
+}
+
+.item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.link {
+  display: flex;
+  align-items: baseline;
+  gap: calc(var(--u) * 2.5);
+  padding-block: calc(var(--u) * 2);
+  font-size: var(--t-m);
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+/* The title takes the in and out brackets (globals.css .inout) and slides 0.3 em. The row's hover and its keyboard
+   focus both drive them, so pointer and keyboard share one treatment. */
+.title {
+  transition: translate 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@media (hover: hover) {
+  .link:hover .title {
+    translate: 0.3em 0;
+  }
+
+  .link:hover .title::before {
+    right: calc(100% + 0.25em);
+    opacity: 1;
+  }
+
+  .link:hover .title::after {
+    left: calc(100% + 0.25em);
+    opacity: 1;
+  }
+}
+
+.link:focus-visible .title {
+  translate: 0.3em 0;
+}
+
+.link:focus-visible .title::before {
+  right: calc(100% + 0.25em);
+  opacity: 1;
+}
+
+.link:focus-visible .title::after {
+  left: calc(100% + 0.25em);
+  opacity: 1;
+}
+
+.num {
+  min-width: 2.2em;
+  font-family: var(--f-sans);
+  font-size: var(--t-s);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding-top: calc(var(--header-h) + var(--u) * 8);
+    padding-bottom: calc(var(--u) * 10);
+  }
+
+  .band {
+    padding-block: calc(var(--u) * 5);
+  }
+
+  .track,
+  .main {
+    grid-column: 1 / -1;
+  }
+
+  .track {
+    margin-bottom: calc(var(--u) * 2);
+  }
+
+  .fieldTitle {
+    font-size: 1.75rem;
+  }
+}

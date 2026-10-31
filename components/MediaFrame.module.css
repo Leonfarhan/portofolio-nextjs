@@ -1,0 +1,140 @@
+/* MediaFrame: one frame in the editor's bin (DESIGN.md, clipped). A 3 px frame on --surface with a 1 px
+   --line rule, flat, no gradient. The figure is a size container, so a code listing sizes its type to the
+   frame (cqi), not to the viewport. The media area (.media) is the image box or the code sheet; the optional
+   overlay (ClipFrame) sits over it, inset 0. */
+
+.frame {
+  margin: 0;
+  min-width: 0;
+  container-type: inline-size;
+}
+
+/* A tall image (phone screenshot): its own ratio, centred, at most 80% of the viewport height. */
+.tall {
+  width: min(100%, calc(min(80svh, 960px) * var(--rw) / var(--rh)));
+  margin-inline: auto;
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/* The image box: its ratio, the image cropped to fill it (object-fit cover). */
+.image {
+  aspect-ratio: var(--rw) / var(--rh);
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The code sheet: a minimum height from the ratio (none for 'auto'). The sheet sits centred in it, so a
+   short listing is set in the middle of the frame, not pinned to its top edge. */
+.code {
+  display: grid;
+  align-content: center;
+  min-height: calc(100cqi * var(--rh) / var(--rw));
+}
+
+.sheet {
+  min-width: 0;
+  padding: calc(var(--u) * 2);
+}
+
+.title {
+  margin: 0 0 var(--u);
+  color: var(--muted);
+}
+
+/* The listing: --ink code. Its type is fitted from the frame by the inline vars (MediaFrame.tsx): the
+   widest line fills the width, and with a ratio the rows fill the height. Long lines wrap under their
+   number (a hanging indent), so nothing scrolls; overflow-x is the last resort, inside the frame. */
+.listing {
+  margin: 0;
+  font-family: var(--f-code);
+  font-size: clamp(
+    12px,
+    min(calc((100cqi - 34px) / var(--em)), calc((100cqi * var(--rh) / var(--rw) - 64px) / var(--rows) / 1.6)),
+    36px
+  );
+  line-height: 1.6;
+  color: var(--ink);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+  overflow-x: clip;
+}
+
+/* 'auto' sheets have no height to fill: the type fits the width alone, up to 18 px. */
+.free {
+  font-size: clamp(12px, calc((100cqi - 34px) / var(--em)), 18px);
+}
+
+.listing code {
+  font: inherit;
+  color: inherit;
+}
+
+/* Each line is a grid: the number in its gutter, the code beside it, so a wrapped line hangs. */
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+/* The code text. Its leading spaces are carried as padding (--indent, in ch), so a wrapped line returns under
+   the first character of its code, not under the gutter. */
+.text {
+  min-width: 0;
+  padding-left: calc(var(--indent, 0) * 1ch);
+  overflow-wrap: anywhere;
+}
+
+/* Line numbers in --muted, divided from the code by a 1 px --line rule. The gutter is a fixed 2.5 ch, not a minimum:
+   a minimum lets line 10 widen its own row and push the whole tree one character right, so the columns stop lining up.
+   The numbers never wrap, whatever the width. */
+.num {
+  width: 2.5ch;
+  margin-right: 1.5ch;
+  padding-right: 1.5ch;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--muted);
+  border-right: 1px solid var(--line);
+  user-select: none;
+}
+
+/* Caption: small and muted, the frame label in front. */
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3em 1.2em;
+  max-width: 60ch;
+  margin-top: var(--u);
+  font-size: var(--t-s);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.figLabel {
+  color: var(--ink);
+}
+
+/* Phones: the code sheet grows with its listing (no fixed ratio) and the listing is 12 px. */
+@media (max-width: 767px) {
+  .code {
+    min-height: 0;
+  }
+
+  .listing,
+  .free {
+    font-size: 12px;
+  }
+}

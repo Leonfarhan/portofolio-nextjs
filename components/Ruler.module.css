@@ -1,0 +1,101 @@
+/* Ruler: the timecode ruler down the sheet's left edge. Playhead: a fixed 1 px line at 50% height, its solid segment
+   in the ruler zone, and its flag. The line and the flag are fixed themselves. The line runs under the page content. */
+
+.ruler {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--ruler);
+  z-index: var(--z-ruler);
+  border-right: 1px solid var(--line);
+  pointer-events: none;
+}
+
+/* Labels: written by motion/playhead.ts, one per long tick. Desktop only. */
+.labels {
+  position: absolute;
+  inset: 0;
+}
+
+.labels > span {
+  position: absolute;
+  left: 8px;
+  font-family: var(--f-sans);
+  font-size: 0.75rem;
+  font-weight: 560;
+  line-height: 1;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* The wrapper takes no space and creates no stacking context. */
+.playhead {
+  position: static;
+}
+
+/* The playhead line across the viewport at 50% height. It runs under the page content (z-index 0, below #main), at 14%
+   ink, so text always sits on top of it. */
+.line {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  z-index: 0;
+  background: rgb(243 242 239 / 0.14);
+  pointer-events: none;
+}
+
+/* The solid part of the playhead: the ruler zone only, in --caption, from the left edge to the ruler's border. */
+.segment {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: var(--ruler);
+  height: 1px;
+  z-index: var(--z-playhead);
+  background: var(--caption);
+  pointer-events: none;
+}
+
+/* The flag: a --caption pointer on the ruler, centred on the line, with the live timecode. */
+.flag {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  z-index: var(--z-playhead);
+  translate: 0 -50%;
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 14px 0 6px;
+  background: var(--caption);
+  color: var(--ground);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%);
+  pointer-events: none;
+}
+
+.tc {
+  font-size: 0.75rem;
+  color: var(--ground);
+}
+
+/* Phones: 18 px ruler, ticks only, the flag is a small yellow notch with no label. */
+@media (max-width: 767px) {
+  .labels {
+    display: none;
+  }
+
+  .flag {
+    width: 10px;
+    height: 14px;
+    padding: 0;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+  }
+
+  .tc {
+    display: none;
+  }
+}

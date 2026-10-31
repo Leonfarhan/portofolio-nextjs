@@ -1,0 +1,246 @@
+/* Work: five stacked clips. The head sits on cols 1 to 2 and the prompt on cols 3 to 12. Each clip is one
+   link on cols 3 to 12, a 10-column grid of its own: odd clips put the 16:10 frame on columns 1 to 7 of
+  those 10 (page cols 3 to 9) and the info on 8 to 10; even clips mirror it. Each clip block is its frame height
+  plus a gap, so the reframe has scroll to play while the frame crosses the playhead (motion/playhead.ts).
+   Phones and tablets (below 940 px): one column, the frame first, the info below. */
+
+.work {
+  padding-top: calc(var(--u) * 8);
+}
+
+.head {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  align-self: start;
+}
+
+.prompt {
+  grid-column: 3 / -1;
+  grid-row: 1;
+  max-width: 44ch;
+  font-size: var(--t-m);
+  line-height: 1.4;
+}
+
+.clips {
+  list-style: none;
+  padding: 0;
+}
+
+/* One clip block: its 16:10 frame (seven of the twelve columns, page cols 3 to 9) plus a gap of 9svh. The frame
+   sits at the block's centre and crosses the playhead on the way. Sized so that, with the head and prompt, the empty
+   share of a viewport through Work stays near a fifth. Column width = (100vw - ruler - 13 gutters) / 12. */
+.item {
+  min-height: calc((7 * ((100vw - var(--ruler) - 13 * var(--gutter)) / 12) + 6 * var(--gutter)) * 10 / 16 + 9svh);
+  align-content: center;
+  align-items: center;
+}
+
+.clip {
+  grid-column: 3 / -1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.media {
+  grid-column: 1 / 8;
+  grid-row: 1;
+  min-width: 0;
+}
+
+/* The info block is a size container, so the title can fit its column at every width. */
+.info {
+  grid-column: 8 / 11;
+  grid-row: 1;
+  container-type: inline-size;
+  min-width: 0;
+  display: grid;
+  gap: calc(var(--u) * 2);
+  justify-items: stretch;
+}
+
+.mirror .media {
+  grid-column: 4 / 11;
+}
+
+.mirror .info {
+  grid-column: 1 / 4;
+}
+
+.clipLabel {
+  color: var(--muted);
+}
+
+/* Titles go as large as --t-xl allows and no larger than the column takes. Bricolage 700 sets "Architecture" at
+   5.7 em at 28 px and 5.3 em at 80 px (the optical size follows the size). At 17 cqi that word fills 97 percent of
+   the 156 px info column at 768, the narrowest one (94 percent at 1440, 91 percent at 1920). At 390 the --t-xl floor
+   (40 px) is the cap. */
+.title {
+  font-size: min(var(--t-xl), 17cqi);
+  line-height: 0.92;
+}
+
+.line {
+  max-width: 36ch;
+  font-size: var(--t-body);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.year {
+  font-size: var(--t-body);
+  color: var(--ink);
+}
+
+/* The CTA looks like a BoxLink but sits inside the link: the link's hover and focus fill it. */
+.cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0.95em 1.2em;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: var(--t-s);
+  font-weight: 560;
+  line-height: 1;
+  color: var(--ink);
+  transition: color 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--caption);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.ctaArrow {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: square;
+  transition: translate 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.clip:focus-visible .cta,
+.clip:active .cta {
+  color: var(--ground);
+}
+
+.clip:focus-visible .cta::before,
+.clip:active .cta::before {
+  clip-path: inset(0 0 0 0);
+}
+
+.clip:focus-visible .ctaArrow,
+.clip:active .ctaArrow {
+  translate: 6px 0;
+}
+
+@media (hover: hover) {
+  .clip:hover .cta {
+    color: var(--ground);
+  }
+
+  .clip:hover .cta::before {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .clip:hover .ctaArrow {
+    translate: 6px 0;
+  }
+
+}
+
+@media (max-width: 767px) {
+  .work {
+    padding-top: calc(var(--u) * 8);
+  }
+
+  .head {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin-bottom: calc(var(--u) * 4);
+  }
+
+  .prompt {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    font-size: var(--t-body);
+  }
+
+  .item {
+    min-height: 0;
+    padding-block: calc(var(--u) * 6);
+  }
+
+  .clip {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: calc(var(--u) * 3);
+  }
+
+  .media,
+  .mirror .media {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .info,
+  .mirror .info {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+/* Desktop shows the full tracks and phones the compact ones. The hidden copy is display: none, so it is out of
+   the screen and the accessibility tree alike. */
+.info .tracksPhone {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .info .tracksDesk {
+    display: none;
+  }
+
+  .info .tracksPhone {
+    display: block;
+  }
+}
+
+/* Tablets (768 to 939 px): each clip keeps cols 3 to 12 and runs in one column, the frame first and the info below,
+   both the full clip width. Mirror clips stack the same way, with no swapped columns. */
+@media (min-width: 768px) and (max-width: 939px) {
+  .clip {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: calc(var(--u) * 3);
+  }
+
+  .media,
+  .mirror .media {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .info,
+  .mirror .info {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

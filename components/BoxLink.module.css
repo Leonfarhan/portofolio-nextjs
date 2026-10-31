@@ -1,0 +1,136 @@
+/* BoxLink: a 3 px box with a --line rule. The fill is a --caption render bar that motion/fill.ts wipes in from the
+   left (clip-path, never a transform). The label is drawn twice (see BoxLink.tsx). CSS covers touch (:active),
+   keyboard focus and the cases where JS does not animate (no JS, reduced motion). is-filled is set by JS. */
+
+.box {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: normal;
+  text-decoration: none;
+}
+
+.m {
+  min-height: 44px;
+  padding: 0.95em 1.2em;
+  font-size: var(--t-s);
+}
+
+.l {
+  min-height: 52px;
+  padding: 1.1em 1.5em;
+  font-size: var(--t-m);
+}
+
+/* The one CTA on a page that has nothing else to press (the footer) sits on the ink rule, not the hairline, so it reads
+   as the primary action at rest and not as a disabled field. */
+.strong {
+  border-color: rgb(243 242 239 / 0.38);
+}
+
+/* A caption in-point on the left edge, the same mark a used track carries: it says "this is the live one" without
+   filling the box, so the render-bar wipe still has somewhere to go on hover. */
+.strong::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--caption);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--caption);
+  clip-path: inset(0 100% 0 0);
+}
+
+/* Two stacked rows in one grid cell: the ink row and the ground row clipped to the fill. */
+.content {
+  position: relative;
+  display: grid;
+}
+
+.row {
+  grid-area: 1 / 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  white-space: nowrap;
+}
+
+.inv {
+  color: var(--ground);
+  clip-path: inset(0 100% 0 0);
+}
+
+.label {
+  display: inline-block;
+}
+
+.arrow {
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: square;
+  transition: translate 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.right {
+  --travel: 6px 0;
+}
+
+.upRight {
+  --travel: 6px -6px;
+  rotate: -45deg;
+}
+
+.down {
+  --travel: 0 6px;
+  rotate: 90deg;
+}
+
+/* The arrow travels on hover, focus, press and while filled. */
+@media (hover: hover) {
+  .box:hover .arrow {
+    translate: var(--travel);
+  }
+}
+
+.box:focus-visible .arrow,
+.box:global(.is-filled) .arrow,
+.box:active .arrow {
+  translate: var(--travel);
+}
+
+/* The fill and the ground label without JS, under reduced motion, and on touch (:active). */
+@media (hover: hover) {
+  :global(html:not(.motion)) .box:hover .fill,
+  :global(html:not(.motion)) .box:hover .inv {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+:global(html:not(.motion)) .box:focus-visible .fill,
+:global(html:not(.motion)) .box:focus-visible .inv,
+.box:global(.is-filled) .fill,
+.box:global(.is-filled) .inv,
+.box:active .fill,
+.box:active .inv {
+  clip-path: inset(0 0 0 0);
+}

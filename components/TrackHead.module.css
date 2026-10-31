@@ -1,0 +1,79 @@
+/* TrackHead: id chip, name and the optional record dot. UI type: wght 560, tabular, 13 px. */
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Sticky under the header in long sections (the root is the track column's cell). */
+.sticky {
+  position: sticky;
+  top: calc(var(--header-h) + 16px);
+  align-self: start;
+}
+
+.id {
+  flex: none;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-weight: 560;
+  font-size: var(--t-xs);
+  line-height: 1;
+  letter-spacing: normal;
+  font-variant-numeric: tabular-nums;
+}
+
+.name {
+  font-family: var(--f-sans);
+  font-weight: 560;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  letter-spacing: normal;
+  color: var(--ink);
+}
+
+/* The record dot: the only circle in the system. It blinks slowly and stops under reduced motion. */
+.rec {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rec);
+  animation: rec-blink 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes rec-blink {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rec {
+    animation: none;
+  }
+}
+
+/* Tablets (768 to 939 px): the track column is about 100 to 125 px wide, too narrow for the chip and the name side by
+   side. The chip, with the record dot before it where there is one, sits on the first row, left-aligned; the name takes
+   a row of its own below. */
+@media (min-width: 768px) and (max-width: 939px) {
+  .head {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+  }
+
+  .name {
+    flex-basis: 100%;
+  }
+}

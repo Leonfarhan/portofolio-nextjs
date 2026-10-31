@@ -1,0 +1,42 @@
+/* Caption: the burned-in type. The highlight (.is-on) and the word pop are global (app/globals.css), because the drivers
+   toggle that class by name. */
+
+.caption {
+  font-family: var(--f-caption);
+  font-weight: 840;
+  font-stretch: 108%;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.m {
+  font-size: clamp(1.25rem, 1rem + 1vw, 2rem);
+}
+
+.l {
+  font-size: var(--t-l);
+}
+
+.xl {
+  font-size: var(--t-xl);
+}
+
+/* Over imagery: a 0.12em dark stroke painted under the fill, so the glyphs keep their weight. */
+.onImage {
+  -webkit-text-stroke: 0.12em var(--ground);
+  paint-order: stroke fill;
+}
+
+/* Plate: each line sits on a --ground 78% box, the text background style. Inline, so the box follows each line
+   fragment, and clone keeps the padding on every fragment. The taller line height keeps neighbouring plates apart. */
+.plate {
+  display: inline;
+  line-height: 1.3;
+  padding: 0.08em 0.25em;
+  background: rgb(16 17 19 / 0.78);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}

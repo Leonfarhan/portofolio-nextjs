@@ -1,0 +1,62 @@
+/* CutTrack: one method's edit drawn as a track bar. Both bars share one width (their entry's column). Sprints
+   are thin equal blocks numbered 1 to 8; phases are four long blocks named for their phase. The blocks drop
+   onto the track on scroll-in (CutTrack.tsx); printed, the track is simply full. */
+
+.cut {
+  margin: 0;
+}
+
+.lane {
+  color: var(--muted);
+}
+
+.track {
+  container-type: inline-size;
+  display: flex;
+  gap: 4px;
+  height: 32px;
+  margin-top: calc(var(--u) * 1.5);
+  list-style: none;
+  padding: 0;
+}
+
+/* An editor clip block, in the Tracks style: a #26272C fill, a 1 px --line border, 3 px corners, and a 3 px
+   --caption in-point bar on the left edge. The label is UI type in --ink. */
+.seg {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #26272c;
+  color: var(--ink);
+  /* The longest phase label ("Requirements", 6.77 em in natural case) must fit a quarter of the track, less the 2 px
+     border and the 3 px in-point bar, which the 3 px left padding keeps it clear of. Four labels at 6.77 em with a
+     2 percent margin need 27.7 px of track per px of font size, plus 32 px: 11 px on any track of 337 px or more
+     (Method's columns from about 940 px up). At 768 Method's columns are 271 px, so the labels fall to 8.6 px. */
+  padding-left: 3px;
+  font-size: min(11px, calc((100cqi - 32px) / 27.7));
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.seg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--caption);
+}
+
+@media (max-width: 767px) {
+  .track {
+    height: 28px;
+  }
+}

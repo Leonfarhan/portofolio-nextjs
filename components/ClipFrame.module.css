@@ -1,0 +1,267 @@
+/* ClipFrame: the reframe. --cut (0 to 1) drives the dims, the crop edge, the guides, the brackets and the caption. Every
+   moving part moves by transform (translate, scale) or clip-path, never by left, top, width or height, so a reframe
+   causes no layout shift. The 9:16 window is the full frame height; its width is (9 / 16) / ratio of the frame width
+   (0.3515625 at 16 / 10). Inside a link (a Work card), the card's hover, focus and press drive the zoom of the media layer
+   (never the figcaption), the brackets and the caption's word replay (the block near the end). */
+
+.clip {
+  --ratio: 1.6;
+  --ww: calc((9 / 16) / var(--ratio));
+  --wl: clamp(0, calc(var(--focus, 0.5) - var(--ww) / 2), calc(1 - var(--ww)));
+  --l: calc(var(--cut, 0) * var(--wl));
+  --w: calc(1 - var(--cut, 0) * (1 - var(--ww)));
+  position: relative;
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+.clip[data-reframe='static'] {
+  --cut: 1;
+}
+
+/* Playhead: the 9:16 crop is the end state without motion. With motion the driver scrubs it from the full frame. */
+:global(html:not(.motion)) .clip[data-reframe='playhead'] {
+  --cut: 1;
+}
+
+:global(html.motion) .clip[data-reframe='playhead'] {
+  --cut: 0;
+}
+
+/* Intro: the page intro opens the crop to the full frame. Without motion the full frame is the end state. */
+:global(html.motion) .clip[data-reframe='intro'] {
+  --cut: 1;
+}
+
+:global(html:not(.motion)) .clip[data-reframe='intro'] {
+  --cut: 0;
+}
+
+/* The media layer (image and overlay) zooms inside the clip, which hides the overflow. The figcaption never moves. */
+.zoom {
+  transition: transform 0.45s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Outside the window: ground at 78%, so the frame reads at 22%. Each side is clipped to its own part. */
+.dim {
+  position: absolute;
+  inset: 0;
+  background: rgb(16 17 19 / 0.78);
+}
+
+.dimL {
+  clip-path: inset(0 calc((1 - var(--l)) * 100%) 0 0);
+}
+
+.dimR {
+  clip-path: inset(0 0 0 calc((var(--l) + var(--w)) * 100%));
+}
+
+/* The crop edge and the safe guides: SVG strokes in a 100 by 100 box, moved and stretched with transforms. The strokes
+   are non-scaling, so both lines stay 1 px. */
+.frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: var(--cut, 0);
+}
+
+.crop {
+  transform: translate(calc(var(--l) * 100px), 0) scale(var(--w), 1);
+}
+
+.edge,
+.guide {
+  fill: none;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.edge {
+  stroke: rgb(243 242 239 / 0.9);
+}
+
+/* At rest only the window outline (.edge) shows. The guides blink once when a reframe completes, then stay at 0. */
+.guide {
+  stroke: rgb(243 242 239 / 0.4);
+  opacity: 0;
+}
+
+/* The guides blink once when the crop completes (the driver sets data-blink on the frame), then fade back to 0. */
+.clip[data-blink] .guide {
+  animation: guide-blink 0.7s linear 1;
+}
+
+@keyframes guide-blink {
+  0% {
+    opacity: 1;
+    animation-timing-function: steps(1, end);
+  }
+
+  25% {
+    opacity: 0;
+    animation-timing-function: steps(1, end);
+  }
+
+  50% {
+    opacity: 1;
+    animation-timing-function: steps(1, end);
+  }
+
+  75% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/* The burned-in caption: a constant width (the 9:16 window at 16 / 10) that moves with translate. Its lines carry the
+   --ground plate, which pads each line fragment 0.25 em on both sides, so the text wraps 0.5 em short of the window
+   (padding-right) and the plate stays inside it. Capped to the lower part of the frame, so the label chip at the top never
+   meets it. Its size is also capped by the window: a word of --lw letters at 0.78 em each, plus the plate's 0.5 em, always
+   fits the window. TikTok Sans caps (840, wdth 108) measure 0.66 em a letter for ARCHITECTURE and 0.74 at most (OPENCV). */
+.caption {
+  position: absolute;
+  left: 0;
+  bottom: 9%;
+  width: 35.15625%;
+  max-height: 55%;
+  overflow: hidden;
+  padding-right: 0.5em;
+  font-size: min(clamp(12px, 4.2cqi, 40px), calc(var(--ww) * 100cqi / (var(--lw, 1) * 0.78 + 0.5)));
+  translate: calc(var(--l) * 100cqw) 0;
+}
+
+/* In and out brackets on the window's corners. Each pair is a 14 px box moved with translate: the in pair on the crop's
+   left edge, the out pair on its right edge. They snap on (no transition) on hover or focus of the card, and while the
+   frame reframes. */
+.brackets {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  opacity: 0;
+}
+
+.inPoint {
+  translate: calc(var(--l) * 100cqw) 0;
+}
+
+.outPoint {
+  translate: calc((var(--l) + var(--w)) * 100cqw - 14px) 0;
+}
+
+.corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--caption);
+}
+
+.tl {
+  left: 0;
+  top: 0;
+  border-left-width: 2px;
+  border-top-width: 2px;
+}
+
+.bl {
+  left: 0;
+  bottom: 0;
+  border-left-width: 2px;
+  border-bottom-width: 2px;
+}
+
+.tr {
+  right: 0;
+  top: 0;
+  border-right-width: 2px;
+  border-top-width: 2px;
+}
+
+.br {
+  right: 0;
+  bottom: 0;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+}
+
+.clip[data-reframing] .brackets {
+  opacity: 1;
+}
+
+/* The card (an anchor around the frame on the Work list). Hover (fine pointers only), keyboard focus and press (touch) give
+   the same treatment: the media zooms to 1.03, the brackets snap on, and the caption replays its word highlight, one word
+   per 0.09 s from the first word. Reduced motion keeps the zoom and drops the replay. Every selector carries a local class,
+   as CSS Modules requires. */
+@media (hover: hover) {
+  a:hover .zoom {
+    transform: scale(1.03);
+  }
+
+  a:hover .brackets {
+    opacity: 1;
+  }
+
+  a:hover .caption [data-word] {
+    animation: word-replay 0.09s steps(1, end) calc(var(--i, 0) * 0.09s);
+  }
+}
+
+a:focus-visible .zoom,
+a:active .zoom {
+  transform: scale(1.03);
+}
+
+a:focus-visible .brackets,
+a:active .brackets {
+  opacity: 1;
+}
+
+a:focus-visible .caption [data-word],
+a:active .caption [data-word] {
+  animation: word-replay 0.09s steps(1, end) calc(var(--i, 0) * 0.09s);
+}
+
+/* Each word holds --caption for its own step; the word's normal colour returns when the step ends. */
+@keyframes word-replay {
+  from {
+    color: var(--caption);
+  }
+
+  to {
+    color: var(--caption);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a:hover .caption [data-word],
+  a:focus-visible .caption [data-word],
+  a:active .caption [data-word] {
+    animation: none;
+  }
+}
+
+/* The label chip, top left (optional; Work no longer passes one). */
+.label {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  padding: 2px 6px;
+  border-radius: var(--radius);
+  background: var(--ground);
+  color: var(--ink);
+  pointer-events: none;
+}
