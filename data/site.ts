@@ -1,6 +1,6 @@
 // Verified from Farhan Alwahid's CV (Farhan_Alwahid_CV_Full_Stack_Engineer.pdf):
 // - Location: Jakarta, Indonesia.
-// - Ternak Klip (PT Media Klip Nusantara): Full Stack Engineer, Jul 2026 to Present.
+// - Ternak Klip (PT Media Klip Nusantara): Software Engineer, Jul 2026 to Present.
 // - PT Optimal Untuk Negeri (cbtoptimal.com): Software Engineer, Aug 2025 to Jul 2026.
 //   Supported 8.4K+ users, 960K+ question interactions, 21.4K+ assessments, 3.5K+ paid enrollments.
 // - PT Formulatrix Indonesia: Software Engineer Intern, Jan 2025 to Mar 2025.
@@ -106,10 +106,10 @@ export type Site = {
 
 export const site: Site = {
   name: 'Farhan Alwahid',
-  role: 'Full stack software engineer',
+  role: 'Software engineer',
   url: 'https://farhanalwahid-portofolio.vercel.app',
   description:
-    'Farhan Alwahid, full stack software engineer at Ternak Klip in Jakarta, Indonesia. He builds web products end to end with React, Next.js, Go and PostgreSQL.',
+    'Farhan Alwahid, software engineer at Ternak Klip in Jakarta, Indonesia. He builds web products end to end with React, Next.js, Go and PostgreSQL.',
   email: 'farhanalwahid10@gmail.com',
   location: 'Jakarta, Indonesia',
   socials: [
@@ -147,7 +147,7 @@ export const hero: {
   track: { id: 'V1', name: 'Source' },
   stack: 'React, Next.js, TypeScript, Go',
   overlays: {
-    topLeft: 'Full stack engineer, Ternak Klip',
+    topLeft: 'Software engineer, Ternak Klip',
     topRight: 'Jakarta, Indonesia',
     bottomRight: '9:16',
   },
@@ -164,7 +164,7 @@ export const now: {
   link: { label: string; href: string };
 } = {
   track: { id: 'REC', name: 'Now' },
-  text: 'Full stack engineer at Ternak Klip (PT Media Klip Nusantara), the creator-campaign platform paying clippers per view across TikTok, YouTube Shorts and Instagram Reels. I build transactional campaign and payout workflows with Next.js, Go and PostgreSQL, double-entry financial accounting with NestJS, and virtual account payouts through Xendit.',
+  text: 'Software engineer at Ternak Klip (PT Media Klip Nusantara), the creator-campaign platform paying clippers per view across TikTok, YouTube Shorts and Instagram Reels. I build transactional campaign and payout workflows with Next.js, Go and PostgreSQL, double-entry financial accounting with NestJS, and virtual account payouts through Xendit.',
   link: { label: 'ternakklip.com', href: 'https://ternakklip.com' },
 };
 
@@ -516,7 +516,7 @@ export const experienceSection: {
 export const experience: Experience[] = [
   {
     company: 'Ternak Klip (PT Media Klip Nusantara)',
-    title: 'Full stack engineer',
+    title: 'Software engineer',
     period: 'Jul 2026 to Present',
     current: true,
     description:
